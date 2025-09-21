@@ -130,12 +130,8 @@ export default function LoginScreen() {
         await AsyncStorage.setItem('authToken', data.access_token);
         await AsyncStorage.setItem('userData', JSON.stringify(data.user));
         
-        Alert.alert('Başarılı', 'Hoş geldiniz!', [
-          {
-            text: 'Tamam',
-            onPress: () => navigateToRoleDashboard(data.user.role)
-          }
-        ]);
+        console.log('Stored auth data, now navigating...');
+        navigateToRoleDashboard(data.user.role);
       } else {
         const errorData = await response.json().catch(() => ({ detail: 'Bilinmeyen hata' }));
         console.log('Login error:', errorData);
