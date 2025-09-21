@@ -79,18 +79,24 @@ export default function LoginScreen() {
   };
 
   const navigateToRoleDashboard = (userRole: string) => {
+    console.log('Navigating to dashboard for role:', userRole);
+    
     switch (userRole) {
       case 'kurye':
-        router.replace('/courier');
+        console.log('Redirecting to /courier');
+        router.push('/courier');
         break;
       case 'isletme':
-        router.replace('/business');
+        console.log('Redirecting to /business');
+        router.push('/business'); 
         break;
       case 'musteri':
-        router.replace('/customer');
+        console.log('Redirecting to /customer');
+        router.push('/customer');
         break;
       default:
-        router.replace('/courier');
+        console.log('Redirecting to default /courier');
+        router.push('/courier');
     }
   };
 
