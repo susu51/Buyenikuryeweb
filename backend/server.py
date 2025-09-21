@@ -28,6 +28,10 @@ ACCESS_TOKEN_EXPIRE_MINUTES = 30 * 24 * 60  # 30 days
 MONGO_URL = os.getenv("MONGO_URL", "mongodb://localhost:27017")
 DB_NAME = os.getenv("DB_NAME", "mobil_kargo")
 
+# Google Maps API configuration
+GOOGLE_MAPS_API_KEY = os.getenv("GOOGLE_MAPS_API_KEY", "")
+EMERGENT_LLM_KEY = os.getenv("EMERGENT_LLM_KEY", "")
+
 # Initialize FastAPI app
 app = FastAPI(title="Mobil Kargo API", version="1.0.0")
 
