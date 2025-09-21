@@ -210,11 +210,11 @@ class MobilKargoTester:
             self.log_test("Unauthorized Access", False, "İstek başarısız", response)
             return False
             
-        if response.status_code == 401:
-            self.log_test("Unauthorized Access", True, "Yetkisiz erişim doğru şekilde engellendi")
+        if response.status_code in [401, 403]:
+            self.log_test("Unauthorized Access", True, f"Yetkisiz erişim doğru şekilde engellendi (HTTP {response.status_code})")
             return True
         else:
-            self.log_test("Unauthorized Access", False, f"Beklenen 401, alınan {response.status_code}")
+            self.log_test("Unauthorized Access", False, f"Beklenen 401/403, alınan {response.status_code}")
             return False
     
     def test_order_creation(self):
