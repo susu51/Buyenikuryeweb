@@ -220,13 +220,13 @@ export default function LoginScreen() {
         // Use window.location for web compatibility
         if (Platform.OS === 'web') {
           if (data.user.role === 'kurye') {
-            window.location.href = '/courier';
+            window.location.href = '/courier-start';
           } else if (data.user.role === 'isletme') {
             window.location.href = '/business';
           } else if (data.user.role === 'musteri') {
             window.location.href = '/customer';
           } else {
-            window.location.href = '/courier';
+            window.location.href = '/courier-start';
           }
         } else {
           // For mobile, use router
