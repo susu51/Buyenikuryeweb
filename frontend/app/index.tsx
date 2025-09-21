@@ -172,6 +172,8 @@ export default function LoginScreen() {
         business_name: role === 'isletme' ? businessName : null,
       };
 
+      console.log('Register attempt:', { email: registerData.email, role, backend_url: BACKEND_URL });
+
       const response = await fetch(`${BACKEND_URL}/api/auth/register`, {
         method: 'POST',
         headers: {
@@ -180,9 +182,12 @@ export default function LoginScreen() {
         body: JSON.stringify(registerData),
       });
 
-      const data: AuthResponse = await response.json();
+      console.log('Register response status:', response.status);
 
       if (response.ok) {
+        const data: AuthResponse = await response.json();
+        console.log('Register success:', { user_role: data.user.role, user_name: data.user.full_name });
+
         await AsyncStorage.setItem('authToken', data.access_token);
         await AsyncStorage.setItem('userData', JSON.stringify(data.user));
         
@@ -193,11 +198,13 @@ export default function LoginScreen() {
           }
         ]);
       } else {
-        Alert.alert('Hata', data.detail || 'Kayıt başarısız');
+        const errorData = await response.json().catch(() => ({ detail: 'Bilinmeyen hata' }));
+        console.log('Register error:', errorData);
+        Alert.alert('Hata', errorData.detail || 'Kayıt başarısız');
       }
     } catch (error) {
-      console.error('Register error:', error);
-      Alert.alert('Hata', 'Bağlantı hatası. Lütfen tekrar deneyin.');
+      console.error('Register network error:', error);
+      Alert.alert('Hata', 'Bağlantı hatası. Lütfen internet bağlantınızı kontrol edin.');
     } finally {
       setLoading(false);
     }
