@@ -198,20 +198,19 @@ export default function LoginScreen() {
         const data: AuthResponse = await response.json();
         console.log('Register success:', { user_role: data.user.role, user_name: data.user.full_name });
 
-        // Skip storage for now and directly navigate
-        console.log('Skipping storage, navigating directly...');
+        // Store auth data first (synchronously)
+        console.log('Storing auth data synchronously...');
+        try {
+          AsyncStorage.setItem('authToken', data.access_token);
+          AsyncStorage.setItem('userData', JSON.stringify(data.user));
+          console.log('Auth data stored, now navigating...');
+        } catch (error) {
+          console.log('Storage failed, continuing with navigation...');
+        }
+        
+        // Navigate immediately
+        console.log('Navigating to dashboard...');
         navigateToRoleDashboard(data.user.role);
-
-        // Store in background (non-blocking)
-        setTimeout(async () => {
-          try {
-            await AsyncStorage.setItem('authToken', data.access_token);
-            await AsyncStorage.setItem('userData', JSON.stringify(data.user));
-            console.log('Auth data stored in background');
-          } catch (storageError) {
-            console.error('Background storage error:', storageError);
-          }
-        }, 100);
       } else {
         const errorData = await response.json().catch(() => ({ detail: 'Bilinmeyen hata' }));
         console.log('Register error:', errorData);
