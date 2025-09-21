@@ -101,3 +101,122 @@
 #====================================================================================================
 # Testing Data - Main Agent and testing sub agent both should log testing data below this section
 #====================================================================================================
+
+user_problem_statement: "Mobil Kargo uygulaması - kurye, işletme ve müşteriler için rol bazlı dashboard'lar, Google Maps entegrasyonu, gerçek zamanlı GPS takip, push bildirimler, basit komisyon hesaplama, Türkçe dil desteği"
+
+backend:
+  - task: "User authentication system with 3 roles (kurye, işletme, müşteri)"
+    implemented: false
+    working: "NA"
+    file: "server.py"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: false
+    status_history:
+      - working: "NA"
+        agent: "main"
+        comment: "Starting authentication system implementation"
+
+  - task: "Database models for users, orders, tracking, ratings"
+    implemented: false
+    working: "NA"
+    file: "server.py"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: false
+    status_history:
+      - working: "NA"
+        agent: "main"
+        comment: "MongoDB collections design needed"
+
+  - task: "Order management API endpoints"
+    implemented: false
+    working: "NA"
+    file: "server.py"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: false
+    status_history:
+      - working: "NA"
+        agent: "main"
+        comment: "CRUD operations for orders"
+
+  - task: "Real-time WebSocket for location tracking"
+    implemented: false
+    working: "NA"
+    file: "server.py"
+    stuck_count: 0
+    priority: "medium"
+    needs_retesting: false
+    status_history:
+      - working: "NA"
+        agent: "main"
+        comment: "WebSocket implementation for real-time updates"
+
+frontend:
+  - task: "Authentication screens (login/register)"
+    implemented: false
+    working: "NA"
+    file: "app/index.tsx"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: false
+    status_history:
+      - working: "NA"
+        agent: "main"
+        comment: "Login/register screens with role selection"
+
+  - task: "Role-based navigation system"
+    implemented: false
+    working: "NA"
+    file: "app/_layout.tsx"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: false
+    status_history:
+      - working: "NA"
+        agent: "main"
+        comment: "Different dashboard navigation for each role"
+
+  - task: "Google Maps integration"
+    implemented: false
+    working: "NA"
+    file: "components/MapView.tsx"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: false
+    status_history:
+      - working: "NA"
+        agent: "main"
+        comment: "Maps with location tracking and markers"
+
+  - task: "Push notification setup"
+    implemented: false
+    working: "NA"
+    file: "services/notifications.ts"
+    stuck_count: 0
+    priority: "medium"
+    needs_retesting: false
+    status_history:
+      - working: "NA"
+        agent: "main"
+        comment: "Push notifications for order updates"
+
+metadata:
+  created_by: "main_agent"
+  version: "1.0"
+  test_sequence: 0
+  run_ui: false
+
+test_plan:
+  current_focus:
+    - "User authentication system with 3 roles (kurye, işletme, müşteri)"
+    - "Authentication screens (login/register)"
+    - "Database models for users, orders, tracking, ratings"
+  stuck_tasks: []
+  test_all: false
+  test_priority: "high_first"
+
+agent_communication:
+  - agent: "main"
+    message: "Starting Mobil Kargo development with authentication system and basic structure"
