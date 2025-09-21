@@ -1,8 +1,8 @@
 {
   "summary": {
-    "passed": 10,
+    "passed": 12,
     "total": 12,
-    "success_rate": 83.3
+    "success_rate": 100.0
   },
   "results": [
     {
@@ -10,169 +10,169 @@
       "success": true,
       "message": "API aktif: Mobil Kargo API v1.0.0",
       "details": null,
-      "timestamp": "2025-09-21T21:07:37.314145"
+      "timestamp": "2025-09-21T21:08:12.967675"
     },
     {
       "test": "Register kurye",
-      "success": false,
-      "message": "Kayıt başarısız: Bu e-posta adresi zaten kullanılıyor",
+      "success": true,
+      "message": "Kullanıcı zaten mevcut: ahmet.kurye@test.com",
       "details": null,
-      "timestamp": "2025-09-21T21:07:37.327204"
+      "timestamp": "2025-09-21T21:08:12.981256"
     },
     {
       "test": "Register isletme",
-      "success": false,
-      "message": "Kayıt başarısız: Bu e-posta adresi zaten kullanılıyor",
+      "success": true,
+      "message": "Kullanıcı zaten mevcut: kargo.isletme@test.com",
       "details": null,
-      "timestamp": "2025-09-21T21:07:37.380026"
+      "timestamp": "2025-09-21T21:08:13.032626"
     },
     {
       "test": "Register musteri",
-      "success": false,
-      "message": "Kayıt başarısız: Bu e-posta adresi zaten kullanılıyor",
+      "success": true,
+      "message": "Kullanıcı zaten mevcut: ayse.musteri@test.com",
       "details": null,
-      "timestamp": "2025-09-21T21:07:37.431381"
+      "timestamp": "2025-09-21T21:08:13.044784"
     },
     {
       "test": "Login kurye",
       "success": true,
       "message": "Giriş başarılı: Ahmet Yılmaz",
       "details": null,
-      "timestamp": "2025-09-21T21:07:37.673713"
+      "timestamp": "2025-09-21T21:08:13.288629"
     },
     {
       "test": "Login isletme",
       "success": true,
       "message": "Giriş başarılı: Mehmet Özkan",
       "details": null,
-      "timestamp": "2025-09-21T21:07:37.918045"
+      "timestamp": "2025-09-21T21:08:13.531496"
     },
     {
       "test": "Login musteri",
       "success": true,
       "message": "Giriş başarılı: Ayşe Demir",
       "details": null,
-      "timestamp": "2025-09-21T21:07:38.159067"
+      "timestamp": "2025-09-21T21:08:13.813623"
     },
     {
       "test": "Get User Info kurye",
       "success": true,
       "message": "Kullanıcı bilgisi alındı: Ahmet Yılmaz (kurye)",
       "details": null,
-      "timestamp": "2025-09-21T21:07:38.171064"
+      "timestamp": "2025-09-21T21:08:13.824491"
     },
     {
       "test": "Get User Info isletme",
       "success": true,
       "message": "Kullanıcı bilgisi alındı: Mehmet Özkan (isletme)",
       "details": null,
-      "timestamp": "2025-09-21T21:07:38.226047"
+      "timestamp": "2025-09-21T21:08:13.874384"
     },
     {
       "test": "Get User Info musteri",
       "success": true,
       "message": "Kullanıcı bilgisi alındı: Ayşe Demir (musteri)",
       "details": null,
-      "timestamp": "2025-09-21T21:07:38.236755"
+      "timestamp": "2025-09-21T21:08:13.883513"
     },
     {
       "test": "Unauthorized Access",
-      "success": false,
-      "message": "Beklenen 401, alınan 403",
+      "success": true,
+      "message": "Yetkisiz erişim doğru şekilde engellendi (HTTP 403)",
       "details": null,
-      "timestamp": "2025-09-21T21:07:38.264628"
+      "timestamp": "2025-09-21T21:08:13.933451"
     },
     {
       "test": "Order Creation",
       "success": true,
-      "message": "Sipariş oluşturuldu: 1d6a6ca8-d7b6-4998-bf70-c009d7a152b4 - Elektronik ürün - Laptop",
+      "message": "Sipariş oluşturuldu: 904767d5-1f8d-4073-b700-0c23502eb7ac - Elektronik ürün - Laptop",
       "details": null,
-      "timestamp": "2025-09-21T21:07:38.276084"
+      "timestamp": "2025-09-21T21:08:13.944633"
     },
     {
       "test": "Get Orders kurye",
       "success": true,
-      "message": "Siparişler alındı: 2 sipariş",
+      "message": "Siparişler alındı: 3 sipariş",
       "details": null,
-      "timestamp": "2025-09-21T21:07:38.286698"
+      "timestamp": "2025-09-21T21:08:13.955315"
     },
     {
       "test": "Get Orders isletme",
       "success": true,
-      "message": "Siparişler alındı: 2 sipariş",
+      "message": "Siparişler alındı: 3 sipariş",
       "details": null,
-      "timestamp": "2025-09-21T21:07:38.296901"
+      "timestamp": "2025-09-21T21:08:13.966158"
     },
     {
       "test": "Get Orders musteri",
       "success": true,
-      "message": "Siparişler alındı: 2 sipariş",
+      "message": "Siparişler alındı: 3 sipariş",
       "details": null,
-      "timestamp": "2025-09-21T21:07:38.306636"
+      "timestamp": "2025-09-21T21:08:13.976888"
     },
     {
       "test": "Order Assignment",
       "success": true,
       "message": "Sipariş atandı: Sipariş başarıyla alındı",
       "details": null,
-      "timestamp": "2025-09-21T21:07:38.359302"
+      "timestamp": "2025-09-21T21:08:14.028057"
     },
     {
       "test": "Status Update picked_up",
       "success": true,
       "message": "Durum güncellendi: Sipariş durumu güncellendi",
       "details": null,
-      "timestamp": "2025-09-21T21:07:38.371221"
+      "timestamp": "2025-09-21T21:08:14.080445"
     },
     {
       "test": "Status Update in_transit",
       "success": true,
       "message": "Durum güncellendi: Sipariş durumu güncellendi",
       "details": null,
-      "timestamp": "2025-09-21T21:07:39.383344"
+      "timestamp": "2025-09-21T21:08:15.094160"
     },
     {
       "test": "Status Update delivered",
       "success": true,
       "message": "Durum güncellendi: Sipariş durumu güncellendi",
       "details": null,
-      "timestamp": "2025-09-21T21:07:40.396201"
+      "timestamp": "2025-09-21T21:08:16.106314"
     },
     {
       "test": "Location Update",
       "success": true,
       "message": "Konum güncellendi: Konum güncellendi",
       "details": null,
-      "timestamp": "2025-09-21T21:07:41.409319"
+      "timestamp": "2025-09-21T21:08:17.117795"
     },
     {
       "test": "Dashboard Stats kurye",
       "success": true,
-      "message": "İstatistikler alındı: total_deliveries: 1, pending_orders: 1, total_earnings: 25.5, rating: 5.0",
+      "message": "İstatistikler alındı: total_deliveries: 2, pending_orders: 1, total_earnings: 51.0, rating: 5.0",
       "details": null,
-      "timestamp": "2025-09-21T21:07:41.425027"
+      "timestamp": "2025-09-21T21:08:17.129026"
     },
     {
       "test": "Dashboard Stats isletme",
       "success": true,
-      "message": "İstatistikler alındı: total_orders: 2, pending_orders: 0, delivered_orders: 1, success_rate: 50.0",
+      "message": "İstatistikler alındı: total_orders: 3, pending_orders: 0, delivered_orders: 2, success_rate: 66.7",
       "details": null,
-      "timestamp": "2025-09-21T21:07:41.478123"
+      "timestamp": "2025-09-21T21:08:17.143049"
     },
     {
       "test": "Dashboard Stats musteri",
       "success": true,
-      "message": "İstatistikler alındı: total_orders: 2, pending_orders: 1, delivered_orders: 1",
+      "message": "İstatistikler alındı: total_orders: 3, pending_orders: 1, delivered_orders: 2",
       "details": null,
-      "timestamp": "2025-09-21T21:07:41.490784"
+      "timestamp": "2025-09-21T21:08:17.194144"
     },
     {
       "test": "WebSocket Connection",
       "success": true,
       "message": "WebSocket bağlantısı başarılı",
       "details": null,
-      "timestamp": "2025-09-21T21:07:41.562450"
+      "timestamp": "2025-09-21T21:08:17.259473"
     }
   ],
-  "timestamp": "2025-09-21T21:07:41.562906"
+  "timestamp": "2025-09-21T21:08:17.260045"
 }
