@@ -225,9 +225,9 @@ export default function CustomerDashboard() {
           <Text style={styles.sectionTitle}>Hızlı İşlemler</Text>
           <View style={styles.actionGrid}>
             <TouchableOpacity style={styles.actionCard}>
-              <Ionicons name="add-circle" size={32} color="#FF6B35" />
-              <Text style={styles.actionText}>Yeni Sipariş</Text>
-              <Text style={styles.actionSubtext}>İşletmeye başvur</Text>
+              <Ionicons name="checkmark-circle" size={32} color="#4CAF50" />
+              <Text style={styles.actionText}>Siparişi Onayla</Text>
+              <Text style={styles.actionSubtext}>Bekleyen siparişleri onayla</Text>
             </TouchableOpacity>
             <TouchableOpacity style={styles.actionCard}>
               <Ionicons name="help-circle" size={32} color="#2196F3" />
