@@ -123,6 +123,87 @@ export default function CustomerDashboard() {
     router.replace('/');
   };
 
+  const approveOrder = async (orderId: string) => {
+    try {
+      const headers = await getAuthHeaders();
+      const response = await fetch(`${BACKEND_URL}/api/orders/${orderId}/approve`, {
+        method: 'POST',
+        headers,
+      });
+
+      if (response.ok) {
+        if (Platform.OS === 'web') {
+          alert('Sipariş onaylandı! Yakında bir kurye atanacak.');
+        } else {
+          Alert.alert('Başarılı', 'Sipariş onaylandı! Yakında bir kurye atanacak.');
+        }
+        await fetchData(); // Refresh data
+      } else {
+        const errorData = await response.json().catch(() => ({ detail: 'Onay başarısız' }));
+        if (Platform.OS === 'web') {
+          alert('Hata: ' + errorData.detail);
+        } else {
+          Alert.alert('Hata', errorData.detail);
+        }
+      }
+    } catch (error) {
+      console.error('Order approval error:', error);
+      if (Platform.OS === 'web') {
+        alert('Bağlantı hatası');
+      } else {
+        Alert.alert('Hata', 'Bağlantı hatası');
+      }
+    }
+  };
+
+  const rejectOrder = async (orderId: string) => {
+    const confirmReject = Platform.OS === 'web' 
+      ? window.confirm('Siparişi reddetmek istediğinizden emin misiniz?')
+      : await new Promise((resolve) => {
+          Alert.alert(
+            'Sipariş Reddi',
+            'Siparişi reddetmek istediğinizden emin misiniz?',
+            [
+              { text: 'İptal', onPress: () => resolve(false) },
+              { text: 'Reddet', onPress: () => resolve(true) }
+            ]
+          );
+        });
+
+    if (!confirmReject) return;
+
+    try {
+      const headers = await getAuthHeaders();
+      const response = await fetch(`${BACKEND_URL}/api/orders/${orderId}/reject`, {
+        method: 'POST',
+        headers,
+      });
+
+      if (response.ok) {
+        if (Platform.OS === 'web') {
+          alert('Sipariş reddedildi.');
+        } else {
+          Alert.alert('Başarılı', 'Sipariş reddedildi.');
+        }
+        await fetchData(); // Refresh data
+      } else {
+        const errorData = await response.json().catch(() => ({ detail: 'Red işlemi başarısız' }));
+        if (Platform.OS === 'web') {
+          alert('Hata: ' + errorData.detail);
+        } else {
+          Alert.alert('Hata', errorData.detail);
+        }
+      }
+    } catch (error) {
+      console.error('Order rejection error:', error);
+      if (Platform.OS === 'web') {
+        alert('Bağlantı hatası');
+      } else {
+        Alert.alert('Hata', 'Bağlantı hatası');
+      }
+    }
+  };
+
   const getStatusColor = (status: string) => {
     switch (status) {
       case 'pending': return '#FF9800';
