@@ -180,40 +180,113 @@ export default function CourierDashboard() {
 
   const openDirections = (order: Order) => {
     const destination = encodeURIComponent(order.delivery_address);
+    const pickupLocation = encodeURIComponent(order.pickup_address);
+    
+    console.log('Opening directions for order:', {
+      orderId: order.id,
+      deliveryAddress: order.delivery_address,
+      pickupAddress: order.pickup_address
+    });
     
     if (Platform.OS === 'web') {
-      // Web'de hem Google Maps hem Apple Maps linklerini göster
-      const confirmMessage = `${order.delivery_address} adresine yol tarifi:\n\n1. Google Maps için "Tamam"\n2. Apple Maps için "İptal"`;
+      // Web'de seçenek sunalım
+      const userChoice = window.confirm(
+        `🚗 Teslim Adresi: ${order.delivery_address}\n\n` +
+        `Hangi harita uygulamasını kullanmak istersiniz?\n\n` +
+        `✅ TAMAM: Google Maps\n` +
+        `❌ İPTAL: Apple Maps`
+      );
       
-      if (window.confirm(confirmMessage)) {
-        // Google Maps
-        window.open(`https://www.google.com/maps/dir/?api=1&destination=${destination}`, '_blank');
+      if (userChoice) {
+        // Google Maps - Mevcut konumdan teslim adresine
+        const googleMapsUrl = `https://www.google.com/maps/dir/?api=1&destination=${destination}&travelmode=driving`;
+        console.log('Opening Google Maps:', googleMapsUrl);
+        window.open(googleMapsUrl, '_blank');
       } else {
-        // Apple Maps (web'de çalışmaz ama link verilebilir)
-        window.open(`https://maps.apple.com/?daddr=${destination}`, '_blank');
+        // Apple Maps - Mevcut konumdan teslim adresine
+        const appleMapsUrl = `https://maps.apple.com/?daddr=${destination}&dirflg=d`;
+        console.log('Opening Apple Maps:', appleMapsUrl);
+        window.open(appleMapsUrl, '_blank');
       }
     } else {
-      // Mobile'da seçenek sunalım
+      // Mobile'da Alert ile seçenek sunalım
       Alert.alert(
-        'Yol Tarifi',
-        `${order.delivery_address} adresine hangi harita uygulamasıyla gitmek istersiniz?`,
+        '🗺️ Yol Tarifi',
+        `Teslim Adresi:\n${order.delivery_address}\n\nHangi harita uygulamasını kullanmak istersiniz?`,
         [
           {
-            text: 'Google Maps',
-            onPress: () => {
-              const url = `https://www.google.com/maps/dir/?api=1&destination=${destination}`;
-              Linking.openURL(url);
+            text: '🔍 Google Maps',
+            onPress: async () => {
+              try {
+                // Google Maps uygulaması için URL scheme
+                const googleMapsUrl = `comgooglemaps://?daddr=${destination}&directionsmode=driving`;
+                const webFallback = `https://www.google.com/maps/dir/?api=1&destination=${destination}&travelmode=driving`;
+                
+                console.log('Trying Google Maps app:', googleMapsUrl);
+                
+                // Önce Google Maps uygulamasını dene
+                const supported = await Linking.canOpenURL(googleMapsUrl);
+                if (supported) {
+                  await Linking.openURL(googleMapsUrl);
+                } else {
+                  // Uygulama yoksa web versiyonunu aç
+                  console.log('Google Maps app not found, opening web version');
+                  await Linking.openURL(webFallback);
+                }
+              } catch (error) {
+                console.error('Google Maps error:', error);
+                Alert.alert('Hata', 'Google Maps açılamadı');
+              }
             }
           },
           {
-            text: 'Apple Maps',
-            onPress: () => {
-              const url = `https://maps.apple.com/?daddr=${destination}`;
-              Linking.openURL(url);
+            text: '🍎 Apple Maps',
+            onPress: async () => {
+              try {
+                // Apple Maps için URL scheme
+                const appleMapsUrl = `maps://?daddr=${destination}&dirflg=d`;
+                const webFallback = `https://maps.apple.com/?daddr=${destination}&dirflg=d`;
+                
+                console.log('Trying Apple Maps:', appleMapsUrl);
+                
+                const supported = await Linking.canOpenURL(appleMapsUrl);
+                if (supported) {
+                  await Linking.openURL(appleMapsUrl);
+                } else {
+                  // Apple Maps yoksa web versiyonunu aç
+                  console.log('Apple Maps not available, opening web version');
+                  await Linking.openURL(webFallback);
+                }
+              } catch (error) {
+                console.error('Apple Maps error:', error);
+                Alert.alert('Hata', 'Apple Maps açılamadı');
+              }
             }
           },
           {
-            text: 'İptal',
+            text: '📍 Waze',
+            onPress: async () => {
+              try {
+                // Waze URL scheme
+                const wazeUrl = `waze://?ll=${destination}&navigate=yes`;
+                const webFallback = `https://www.waze.com/ul?ll=${destination}&navigate=yes`;
+                
+                console.log('Trying Waze:', wazeUrl);
+                
+                const supported = await Linking.canOpenURL(wazeUrl);
+                if (supported) {
+                  await Linking.openURL(wazeUrl);
+                } else {
+                  await Linking.openURL(webFallback);
+                }
+              } catch (error) {
+                console.error('Waze error:', error);
+                Alert.alert('Hata', 'Waze açılamadı');
+              }
+            }
+          },
+          {
+            text: '❌ İptal',
             style: 'cancel'
           }
         ]
