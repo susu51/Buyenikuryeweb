@@ -127,8 +127,14 @@ export default function LoginScreen() {
         const data: AuthResponse = await response.json();
         console.log('Login success:', { user_role: data.user.role, user_name: data.user.full_name });
 
-        await AsyncStorage.setItem('authToken', data.access_token);
-        await AsyncStorage.setItem('userData', JSON.stringify(data.user));
+        try {
+          console.log('Attempting to store auth data...');
+          await AsyncStorage.setItem('authToken', data.access_token);
+          await AsyncStorage.setItem('userData', JSON.stringify(data.user));
+          console.log('Auth data stored successfully');
+        } catch (storageError) {
+          console.error('Storage error:', storageError);
+        }
         
         console.log('Stored auth data, now navigating...');
         navigateToRoleDashboard(data.user.role);
