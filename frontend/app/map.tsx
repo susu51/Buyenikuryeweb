@@ -195,22 +195,50 @@ export default function MapScreen() {
 
       {/* Map View */}
       <View style={styles.mapContainer}>
-        <DeliveryMap
-          pickupLocation={activeOrder?.pickup_coordinates ? {
-            ...activeOrder.pickup_coordinates,
-            title: 'Alım Noktası',
-            description: activeOrder.pickup_address
-          } : undefined}
-          deliveryLocation={activeOrder?.delivery_coordinates ? {
-            ...activeOrder.delivery_coordinates,
-            title: 'Teslimat Noktası',
-            description: activeOrder.delivery_address
-          } : undefined}
-          courierLocation={courierLocation}
-          showRoute={!!activeOrder}
-          trackingMode={user?.role === 'kurye'}
-          onLocationUpdate={handleLocationUpdate}
-        />
+        {Platform.OS === 'web' || !DeliveryMap ? (
+          <View style={styles.webMapPlaceholder}>
+            <Ionicons name="map" size={64} color="#CCC" />
+            <Text style={styles.webMapText}>Harita Görünümü</Text>
+            <Text style={styles.webMapSubtext}>
+              Mobil uygulamada Google Maps ile gerçek zamanlı konum takibi
+            </Text>
+            
+            {/* Show location info for web */}
+            {activeOrder && (
+              <View style={styles.locationInfoWeb}>
+                <View style={styles.locationItem}>
+                  <View style={[styles.locationDot, { backgroundColor: '#4CAF50' }]} />
+                  <Text style={styles.locationText}>
+                    Alım: {activeOrder.pickup_address}
+                  </Text>
+                </View>
+                <View style={styles.locationItem}>
+                  <View style={[styles.locationDot, { backgroundColor: '#FF6B35' }]} />
+                  <Text style={styles.locationText}>
+                    Teslimat: {activeOrder.delivery_address}
+                  </Text>
+                </View>
+              </View>
+            )}
+          </View>
+        ) : (
+          <DeliveryMap
+            pickupLocation={activeOrder?.pickup_coordinates ? {
+              ...activeOrder.pickup_coordinates,
+              title: 'Alım Noktası',
+              description: activeOrder.pickup_address
+            } : undefined}
+            deliveryLocation={activeOrder?.delivery_coordinates ? {
+              ...activeOrder.delivery_coordinates,
+              title: 'Teslimat Noktası',
+              description: activeOrder.delivery_address
+            } : undefined}
+            courierLocation={courierLocation}
+            showRoute={!!activeOrder}
+            trackingMode={user?.role === 'kurye'}
+            onLocationUpdate={handleLocationUpdate}
+          />
+        )}
       </View>
 
       {/* Order Info Panel */}
