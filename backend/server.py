@@ -12,6 +12,8 @@ import os
 import uuid
 import json
 import asyncio
+import requests
+import googlemaps
 from dotenv import load_dotenv
 
 # Environment variables
