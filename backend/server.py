@@ -148,6 +148,29 @@ class Rating(BaseModel):
     comment: Optional[str] = None
     created_at: datetime = Field(default_factory=datetime.utcnow)
 
+# Google Maps API models
+class GeocodeRequest(BaseModel):
+    address: str
+    language: str = "tr"
+    region: str = "tr"
+
+class DirectionsRequest(BaseModel):
+    origin: str
+    destination: str
+    waypoints: Optional[List[str]] = []
+    mode: str = "driving"
+    avoid_tolls: bool = False
+    avoid_highways: bool = False
+    language: str = "tr"
+    region: str = "tr"
+
+class PlacesRequest(BaseModel):
+    query: str
+    location: Optional[str] = None  # "lat,lng"
+    radius: Optional[int] = 5000  # meters
+    language: str = "tr"
+    region: str = "tr"
+
 # WebSocket connection manager
 class ConnectionManager:
     def __init__(self):
