@@ -8,6 +8,7 @@ export default function RootLayout() {
       <Stack.Screen name="courier" options={{ title: 'Kurye Dashboard' }} />
       <Stack.Screen name="business" options={{ title: 'İşletme Dashboard' }} />
       <Stack.Screen name="customer" options={{ title: 'Müşteri Dashboard' }} />
+      <Stack.Screen name="map" />
     </Stack>
   );
 }
