@@ -442,6 +442,10 @@ const styles = StyleSheet.create({
   logoutButton: {
     padding: 8,
   },
+  mapButton: {
+    padding: 8,
+    marginLeft: 8,
+  },
   statsContainer: {
     flexDirection: 'row',
     padding: 20,
