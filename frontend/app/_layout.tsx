@@ -5,6 +5,7 @@ export default function RootLayout() {
   return (
     <Stack screenOptions={{ headerShown: false }}>
       <Stack.Screen name="index" options={{ title: 'Login' }} />
+      <Stack.Screen name="courier-start" />
       <Stack.Screen name="courier" options={{ title: 'Kurye Dashboard' }} />
       <Stack.Screen name="business" options={{ title: 'İşletme Dashboard' }} />
       <Stack.Screen name="customer" options={{ title: 'Müşteri Dashboard' }} />
