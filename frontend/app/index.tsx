@@ -127,19 +127,35 @@ export default function LoginScreen() {
         const data: AuthResponse = await response.json();
         console.log('Login success:', { user_role: data.user.role, user_name: data.user.full_name });
 
-        // Store auth data first (synchronously)
-        console.log('Storing auth data synchronously...');
-        try {
-          AsyncStorage.setItem('authToken', data.access_token);
-          AsyncStorage.setItem('userData', JSON.stringify(data.user));
-          console.log('Auth data stored, now navigating...');
-        } catch (error) {
-          console.log('Storage failed, continuing with navigation...');
-        }
+        // Navigate immediately without storage
+        console.log('Navigating directly to dashboard...');
         
-        // Navigate immediately
-        console.log('Navigating to dashboard...');
-        navigateToRoleDashboard(data.user.role);
+        // Use window.location for web compatibility
+        if (Platform.OS === 'web') {
+          if (data.user.role === 'kurye') {
+            window.location.href = '/courier';
+          } else if (data.user.role === 'isletme') {
+            window.location.href = '/business';
+          } else if (data.user.role === 'musteri') {
+            window.location.href = '/customer';
+          } else {
+            window.location.href = '/courier';
+          }
+        } else {
+          // For mobile, use router
+          navigateToRoleDashboard(data.user.role);
+        }
+
+        // Store auth data in background (non-blocking)
+        setTimeout(() => {
+          try {
+            AsyncStorage.setItem('authToken', data.access_token);
+            AsyncStorage.setItem('userData', JSON.stringify(data.user));
+            console.log('Auth data stored in background');
+          } catch (error) {
+            console.log('Background storage failed:', error);
+          }
+        }, 100);
       } else {
         const errorData = await response.json().catch(() => ({ detail: 'Bilinmeyen hata' }));
         console.log('Login error:', errorData);
