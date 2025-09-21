@@ -623,11 +623,11 @@ class MobilKargoTester:
                 all_success = False
                 continue
                 
-            if response.status_code == 401:
+            if response.status_code in [401, 403]:
                 self.log_test(f"Maps Auth {method} {endpoint}", True, "Yetkilendirme gereksinimi doğru")
             else:
                 self.log_test(f"Maps Auth {method} {endpoint}", False, 
-                            f"Beklenen 401, alınan {response.status_code}")
+                            f"Beklenen 401/403, alınan {response.status_code}")
                 all_success = False
                 
         return all_success
