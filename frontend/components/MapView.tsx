@@ -485,4 +485,57 @@ const styles = StyleSheet.create({
     color: '#333',
     flex: 1,
   },
+  progressStepText: {
+    fontSize: 10,
+    color: '#666',
+  },
+  webMapContainer: {
+    backgroundColor: '#F8F9FA',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  webMapPlaceholder: {
+    alignItems: 'center',
+    padding: 40,
+    backgroundColor: '#FFF',
+    borderRadius: 12,
+    margin: 20,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 8,
+    elevation: 5,
+  },
+  webMapText: {
+    fontSize: 18,
+    fontWeight: 'bold',
+    color: '#333',
+    marginTop: 16,
+  },
+  webMapSubtext: {
+    fontSize: 14,
+    color: '#666',
+    textAlign: 'center',
+    marginTop: 8,
+    lineHeight: 20,
+  },
+  locationInfo: {
+    marginTop: 16,
+    alignItems: 'flex-start',
+  },
+  locationItem: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginBottom: 8,
+  },
+  locationDot: {
+    width: 12,
+    height: 12,
+    borderRadius: 6,
+    marginRight: 12,
+  },
+  locationText: {
+    fontSize: 14,
+    color: '#333',
+  },
 });
