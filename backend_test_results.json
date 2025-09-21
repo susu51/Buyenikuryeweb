@@ -1,8 +1,8 @@
 {
   "summary": {
-    "passed": 9,
+    "passed": 10,
     "total": 12,
-    "success_rate": 75.0
+    "success_rate": 83.3
   },
   "results": [
     {
@@ -10,169 +10,169 @@
       "success": true,
       "message": "API aktif: Mobil Kargo API v1.0.0",
       "details": null,
-      "timestamp": "2025-09-21T21:06:25.450456"
+      "timestamp": "2025-09-21T21:07:37.314145"
     },
     {
       "test": "Register kurye",
-      "success": true,
-      "message": "Kullanıcı kaydı başarılı: Ahmet Yılmaz",
+      "success": false,
+      "message": "Kayıt başarısız: Bu e-posta adresi zaten kullanılıyor",
       "details": null,
-      "timestamp": "2025-09-21T21:06:25.744718"
+      "timestamp": "2025-09-21T21:07:37.327204"
     },
     {
       "test": "Register isletme",
-      "success": true,
-      "message": "Kullanıcı kaydı başarılı: Mehmet Özkan",
+      "success": false,
+      "message": "Kayıt başarısız: Bu e-posta adresi zaten kullanılıyor",
       "details": null,
-      "timestamp": "2025-09-21T21:06:25.992135"
+      "timestamp": "2025-09-21T21:07:37.380026"
     },
     {
       "test": "Register musteri",
-      "success": true,
-      "message": "Kullanıcı kaydı başarılı: Ayşe Demir",
+      "success": false,
+      "message": "Kayıt başarısız: Bu e-posta adresi zaten kullanılıyor",
       "details": null,
-      "timestamp": "2025-09-21T21:06:26.247364"
+      "timestamp": "2025-09-21T21:07:37.431381"
     },
     {
       "test": "Login kurye",
       "success": true,
       "message": "Giriş başarılı: Ahmet Yılmaz",
       "details": null,
-      "timestamp": "2025-09-21T21:06:26.490986"
+      "timestamp": "2025-09-21T21:07:37.673713"
     },
     {
       "test": "Login isletme",
       "success": true,
       "message": "Giriş başarılı: Mehmet Özkan",
       "details": null,
-      "timestamp": "2025-09-21T21:06:26.734958"
+      "timestamp": "2025-09-21T21:07:37.918045"
     },
     {
       "test": "Login musteri",
       "success": true,
       "message": "Giriş başarılı: Ayşe Demir",
       "details": null,
-      "timestamp": "2025-09-21T21:06:26.978483"
+      "timestamp": "2025-09-21T21:07:38.159067"
     },
     {
       "test": "Get User Info kurye",
       "success": true,
       "message": "Kullanıcı bilgisi alındı: Ahmet Yılmaz (kurye)",
       "details": null,
-      "timestamp": "2025-09-21T21:06:26.991061"
+      "timestamp": "2025-09-21T21:07:38.171064"
     },
     {
       "test": "Get User Info isletme",
       "success": true,
       "message": "Kullanıcı bilgisi alındı: Mehmet Özkan (isletme)",
       "details": null,
-      "timestamp": "2025-09-21T21:06:27.010473"
+      "timestamp": "2025-09-21T21:07:38.226047"
     },
     {
       "test": "Get User Info musteri",
       "success": true,
       "message": "Kullanıcı bilgisi alındı: Ayşe Demir (musteri)",
       "details": null,
-      "timestamp": "2025-09-21T21:06:27.106171"
+      "timestamp": "2025-09-21T21:07:38.236755"
     },
     {
       "test": "Unauthorized Access",
       "success": false,
       "message": "Beklenen 401, alınan 403",
       "details": null,
-      "timestamp": "2025-09-21T21:06:27.116800"
+      "timestamp": "2025-09-21T21:07:38.264628"
     },
     {
       "test": "Order Creation",
       "success": true,
-      "message": "Sipariş oluşturuldu: 3c131bde-3f54-42fb-a295-244e28df4fa3 - Elektronik ürün - Laptop",
+      "message": "Sipariş oluşturuldu: 1d6a6ca8-d7b6-4998-bf70-c009d7a152b4 - Elektronik ürün - Laptop",
       "details": null,
-      "timestamp": "2025-09-21T21:06:27.142040"
+      "timestamp": "2025-09-21T21:07:38.276084"
     },
     {
       "test": "Get Orders kurye",
       "success": true,
-      "message": "Siparişler alındı: 1 sipariş",
+      "message": "Siparişler alındı: 2 sipariş",
       "details": null,
-      "timestamp": "2025-09-21T21:06:27.153556"
+      "timestamp": "2025-09-21T21:07:38.286698"
     },
     {
       "test": "Get Orders isletme",
       "success": true,
-      "message": "Siparişler alındı: 1 sipariş",
+      "message": "Siparişler alındı: 2 sipariş",
       "details": null,
-      "timestamp": "2025-09-21T21:06:27.206677"
+      "timestamp": "2025-09-21T21:07:38.296901"
     },
     {
       "test": "Get Orders musteri",
       "success": true,
-      "message": "Siparişler alındı: 1 sipariş",
+      "message": "Siparişler alındı: 2 sipariş",
       "details": null,
-      "timestamp": "2025-09-21T21:06:27.219279"
+      "timestamp": "2025-09-21T21:07:38.306636"
     },
     {
       "test": "Order Assignment",
       "success": true,
       "message": "Sipariş atandı: Sipariş başarıyla alındı",
       "details": null,
-      "timestamp": "2025-09-21T21:06:27.306143"
+      "timestamp": "2025-09-21T21:07:38.359302"
     },
     {
       "test": "Status Update picked_up",
-      "success": false,
-      "message": "Durum güncellenemedi: [{'type': 'missing', 'loc': ['query', 'status'], 'msg': 'Field required', 'input': None, 'url': 'https://errors.pydantic.dev/2.11/v/missing'}]",
+      "success": true,
+      "message": "Durum güncellendi: Sipariş durumu güncellendi",
       "details": null,
-      "timestamp": "2025-09-21T21:06:27.318112"
+      "timestamp": "2025-09-21T21:07:38.371221"
     },
     {
       "test": "Status Update in_transit",
-      "success": false,
-      "message": "Durum güncellenemedi: [{'type': 'missing', 'loc': ['query', 'status'], 'msg': 'Field required', 'input': None, 'url': 'https://errors.pydantic.dev/2.11/v/missing'}]",
+      "success": true,
+      "message": "Durum güncellendi: Sipariş durumu güncellendi",
       "details": null,
-      "timestamp": "2025-09-21T21:06:28.329969"
+      "timestamp": "2025-09-21T21:07:39.383344"
     },
     {
       "test": "Status Update delivered",
-      "success": false,
-      "message": "Durum güncellenemedi: [{'type': 'missing', 'loc': ['query', 'status'], 'msg': 'Field required', 'input': None, 'url': 'https://errors.pydantic.dev/2.11/v/missing'}]",
+      "success": true,
+      "message": "Durum güncellendi: Sipariş durumu güncellendi",
       "details": null,
-      "timestamp": "2025-09-21T21:06:29.343701"
+      "timestamp": "2025-09-21T21:07:40.396201"
     },
     {
       "test": "Location Update",
       "success": true,
       "message": "Konum güncellendi: Konum güncellendi",
       "details": null,
-      "timestamp": "2025-09-21T21:06:30.371280"
+      "timestamp": "2025-09-21T21:07:41.409319"
     },
     {
       "test": "Dashboard Stats kurye",
       "success": true,
-      "message": "İstatistikler alındı: total_deliveries: 0, pending_orders: 1, total_earnings: 0, rating: 5.0",
+      "message": "İstatistikler alındı: total_deliveries: 1, pending_orders: 1, total_earnings: 25.5, rating: 5.0",
       "details": null,
-      "timestamp": "2025-09-21T21:06:30.387142"
+      "timestamp": "2025-09-21T21:07:41.425027"
     },
     {
       "test": "Dashboard Stats isletme",
       "success": true,
-      "message": "İstatistikler alındı: total_orders: 1, pending_orders: 0, delivered_orders: 0, success_rate: 0.0",
+      "message": "İstatistikler alındı: total_orders: 2, pending_orders: 0, delivered_orders: 1, success_rate: 50.0",
       "details": null,
-      "timestamp": "2025-09-21T21:06:30.400658"
+      "timestamp": "2025-09-21T21:07:41.478123"
     },
     {
       "test": "Dashboard Stats musteri",
       "success": true,
-      "message": "İstatistikler alındı: total_orders: 1, pending_orders: 1, delivered_orders: 0",
+      "message": "İstatistikler alındı: total_orders: 2, pending_orders: 1, delivered_orders: 1",
       "details": null,
-      "timestamp": "2025-09-21T21:06:30.454615"
+      "timestamp": "2025-09-21T21:07:41.490784"
     },
     {
       "test": "WebSocket Connection",
-      "success": false,
-      "message": "WebSocket bağlantısı başarısız: No module named 'websocket'",
+      "success": true,
+      "message": "WebSocket bağlantısı başarılı",
       "details": null,
-      "timestamp": "2025-09-21T21:06:30.454842"
+      "timestamp": "2025-09-21T21:07:41.562450"
     }
   ],
-  "timestamp": "2025-09-21T21:06:30.454974"
+  "timestamp": "2025-09-21T21:07:41.562906"
 }
