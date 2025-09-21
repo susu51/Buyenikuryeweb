@@ -320,7 +320,7 @@ class MobilKargoTester:
         
         for status in statuses:
             success, response = self.make_request("PUT", f"/orders/{order_id}/status", 
-                                                status, token=self.tokens['kurye'])
+                                                None, token=self.tokens['kurye'], params={"status": status})
             
             if not success:
                 self.log_test(f"Status Update {status}", False, "İstek başarısız", response)
