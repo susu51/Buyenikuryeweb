@@ -168,25 +168,48 @@ export default function BusinessDashboard() {
         estimated_value: estimatedValue ? parseFloat(estimatedValue) : null,
       };
 
+      console.log('Creating order with data:', orderData);
+
       const response = await fetch(`${BACKEND_URL}/api/orders`, {
         method: 'POST',
         headers,
         body: JSON.stringify(orderData),
       });
 
-      const data = await response.json();
+      console.log('Order creation response status:', response.status);
 
       if (response.ok) {
-        Alert.alert('Başarılı', 'Sipariş oluşturuldu!');
+        const data = await response.json();
+        console.log('Order created successfully:', data);
+        
+        // Success message with platform-specific handling
+        if (Platform.OS === 'web') {
+          alert('Sipariş başarıyla oluşturuldu!');
+        } else {
+          Alert.alert('Başarılı', 'Sipariş oluşturuldu!');
+        }
+        
         setShowCreateModal(false);
         resetForm();
         await fetchData();
       } else {
-        Alert.alert('Hata', data.detail || 'Sipariş oluşturulamadı');
+        const errorData = await response.json().catch(() => ({ detail: 'Bilinmeyen hata' }));
+        console.log('Order creation error:', errorData);
+        
+        if (Platform.OS === 'web') {
+          alert('Hata: ' + (errorData.detail || 'Sipariş oluşturulamadı'));
+        } else {
+          Alert.alert('Hata', errorData.detail || 'Sipariş oluşturulamadı');
+        }
       }
     } catch (error) {
-      console.error('Error creating order:', error);
-      Alert.alert('Hata', 'Bağlantı hatası');
+      console.error('Order creation network error:', error);
+      
+      if (Platform.OS === 'web') {
+        alert('Bağlantı hatası. Lütfen internet bağlantınızı kontrol edin.');
+      } else {
+        Alert.alert('Hata', 'Bağlantı hatası');
+      }
     } finally {
       setCreating(false);
     }
