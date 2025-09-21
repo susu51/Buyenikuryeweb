@@ -176,6 +176,49 @@ export default function CourierDashboard() {
     router.replace('/');
   };
 
+  const openDirections = (order: Order) => {
+    const destination = encodeURIComponent(order.delivery_address);
+    
+    if (Platform.OS === 'web') {
+      // Web'de hem Google Maps hem Apple Maps linklerini göster
+      const confirmMessage = `${order.delivery_address} adresine yol tarifi:\n\n1. Google Maps için "Tamam"\n2. Apple Maps için "İptal"`;
+      
+      if (window.confirm(confirmMessage)) {
+        // Google Maps
+        window.open(`https://www.google.com/maps/dir/?api=1&destination=${destination}`, '_blank');
+      } else {
+        // Apple Maps (web'de çalışmaz ama link verilebilir)
+        window.open(`https://maps.apple.com/?daddr=${destination}`, '_blank');
+      }
+    } else {
+      // Mobile'da seçenek sunalım
+      Alert.alert(
+        'Yol Tarifi',
+        `${order.delivery_address} adresine hangi harita uygulamasıyla gitmek istersiniz?`,
+        [
+          {
+            text: 'Google Maps',
+            onPress: () => {
+              const url = `https://www.google.com/maps/dir/?api=1&destination=${destination}`;
+              Linking.openURL(url);
+            }
+          },
+          {
+            text: 'Apple Maps',
+            onPress: () => {
+              const url = `https://maps.apple.com/?daddr=${destination}`;
+              Linking.openURL(url);
+            }
+          },
+          {
+            text: 'İptal',
+            style: 'cancel'
+          }
+        ]
+      );
+    }
+  };
+
   const getStatusColor = (status: string) => {
     switch (status) {
       case 'pending': return '#FF9800';
