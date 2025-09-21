@@ -419,6 +419,280 @@ class MobilKargoTester:
             self.log_test("WebSocket Connection", False, f"WebSocket bağlantısı başarısız: {str(e)}")
             return False
     
+    def test_google_maps_geocoding(self):
+        """Test Google Maps geocoding API with Turkish addresses"""
+        if 'kurye' not in self.tokens or not self.tokens['kurye']:
+            self.log_test("Google Maps Geocoding", False, "Kurye token'ı bulunamadı")
+            return False
+            
+        test_addresses = [
+            "Kadıköy, İstanbul",
+            "Beşiktaş, İstanbul", 
+            "Taksim Meydanı, İstanbul",
+            "Galata Kulesi, İstanbul"
+        ]
+        
+        all_success = True
+        
+        for address in test_addresses:
+            success, response = self.make_request("POST", "/maps/geocode", 
+                                                token=self.tokens['kurye'], 
+                                                params={"address": address})
+            
+            if not success:
+                self.log_test(f"Geocoding {address}", False, "İstek başarısız", response)
+                all_success = False
+                continue
+                
+            if response.status_code == 200:
+                data = response.json()
+                if data.get("success") and data.get("coordinates"):
+                    coords = data["coordinates"]
+                    lat, lng = coords["lat"], coords["lng"]
+                    
+                    # Validate coordinates are in Istanbul area
+                    if 40.8 <= lat <= 41.3 and 28.5 <= lng <= 29.5:
+                        self.log_test(f"Geocoding {address}", True, 
+                                    f"Koordinatlar alındı: {lat:.4f}, {lng:.4f}")
+                    else:
+                        self.log_test(f"Geocoding {address}", False, 
+                                    f"Koordinatlar İstanbul dışında: {lat:.4f}, {lng:.4f}")
+                        all_success = False
+                else:
+                    self.log_test(f"Geocoding {address}", False, "Koordinat bilgisi alınamadı")
+                    all_success = False
+            else:
+                error_msg = response.json().get('detail', 'Bilinmeyen hata') if response.content else f"HTTP {response.status_code}"
+                self.log_test(f"Geocoding {address}", False, f"Geocoding başarısız: {error_msg}")
+                all_success = False
+                
+        return all_success
+    
+    def test_google_maps_directions(self):
+        """Test Google Maps directions API"""
+        if 'kurye' not in self.tokens or not self.tokens['kurye']:
+            self.log_test("Google Maps Directions", False, "Kurye token'ı bulunamadı")
+            return False
+            
+        test_routes = [
+            ("Kadıköy, İstanbul", "Beşiktaş, İstanbul"),
+            ("Taksim, İstanbul", "Sultanahmet, İstanbul")
+        ]
+        
+        all_success = True
+        
+        for origin, destination in test_routes:
+            success, response = self.make_request("POST", "/maps/directions", 
+                                                token=self.tokens['kurye'], 
+                                                params={
+                                                    "origin": origin,
+                                                    "destination": destination
+                                                })
+            
+            if not success:
+                self.log_test(f"Directions {origin} → {destination}", False, "İstek başarısız", response)
+                all_success = False
+                continue
+                
+            if response.status_code == 200:
+                data = response.json()
+                if data.get("success"):
+                    distance_text = data.get("distance_text", "")
+                    duration_text = data.get("duration_text", "")
+                    
+                    if distance_text and duration_text:
+                        self.log_test(f"Directions {origin} → {destination}", True, 
+                                    f"Rota bulundu: {distance_text}, {duration_text}")
+                    else:
+                        self.log_test(f"Directions {origin} → {destination}", False, 
+                                    "Rota bilgisi eksik")
+                        all_success = False
+                else:
+                    self.log_test(f"Directions {origin} → {destination}", False, "Rota bulunamadı")
+                    all_success = False
+            else:
+                error_msg = response.json().get('detail', 'Bilinmeyen hata') if response.content else f"HTTP {response.status_code}"
+                self.log_test(f"Directions {origin} → {destination}", False, f"Directions başarısız: {error_msg}")
+                all_success = False
+                
+        return all_success
+    
+    def test_google_maps_places_search(self):
+        """Test Google Maps places search API"""
+        if 'kurye' not in self.tokens or not self.tokens['kurye']:
+            self.log_test("Google Maps Places Search", False, "Kurye token'ı bulunamadı")
+            return False
+            
+        test_queries = [
+            ("restoran", "41.0082,28.9784"),  # Istanbul center
+            ("hastane", "41.0082,28.9784"),
+            ("eczane", None)  # Without location filter
+        ]
+        
+        all_success = True
+        
+        for query, location in test_queries:
+            params = {"query": query}
+            if location:
+                params["location"] = location
+                
+            success, response = self.make_request("POST", "/maps/places/search", 
+                                                token=self.tokens['kurye'], 
+                                                params=params)
+            
+            if not success:
+                self.log_test(f"Places Search {query}", False, "İstek başarısız", response)
+                all_success = False
+                continue
+                
+            if response.status_code == 200:
+                data = response.json()
+                if data.get("success"):
+                    places = data.get("places", [])
+                    location_desc = f" ({location} yakınında)" if location else ""
+                    
+                    self.log_test(f"Places Search {query}{location_desc}", True, 
+                                f"{len(places)} yer bulundu")
+                else:
+                    self.log_test(f"Places Search {query}", False, "Arama başarısız")
+                    all_success = False
+            else:
+                error_msg = response.json().get('detail', 'Bilinmeyen hata') if response.content else f"HTTP {response.status_code}"
+                self.log_test(f"Places Search {query}", False, f"Arama başarısız: {error_msg}")
+                all_success = False
+                
+        return all_success
+    
+    def test_google_maps_reverse_geocoding(self):
+        """Test Google Maps reverse geocoding API"""
+        if 'kurye' not in self.tokens or not self.tokens['kurye']:
+            self.log_test("Google Maps Reverse Geocoding", False, "Kurye token'ı bulunamadı")
+            return False
+            
+        test_coordinates = [
+            (41.0082, 28.9784, "İstanbul merkez"),
+            (41.0055, 28.9769, "Sultanahmet bölgesi")
+        ]
+        
+        all_success = True
+        
+        for lat, lng, description in test_coordinates:
+            success, response = self.make_request("GET", "/maps/reverse-geocode", 
+                                                token=self.tokens['kurye'], 
+                                                params={"lat": lat, "lng": lng})
+            
+            if not success:
+                self.log_test(f"Reverse Geocoding {description}", False, "İstek başarısız", response)
+                all_success = False
+                continue
+                
+            if response.status_code == 200:
+                data = response.json()
+                formatted_address = data.get("formatted_address", "")
+                
+                if formatted_address:
+                    self.log_test(f"Reverse Geocoding {description}", True, 
+                                f"Adres bulundu: {formatted_address}")
+                else:
+                    self.log_test(f"Reverse Geocoding {description}", False, "Adres bulunamadı")
+                    all_success = False
+            else:
+                error_msg = response.json().get('detail', 'Bilinmeyen hata') if response.content else f"HTTP {response.status_code}"
+                self.log_test(f"Reverse Geocoding {description}", False, f"Reverse geocoding başarısız: {error_msg}")
+                all_success = False
+                
+        return all_success
+    
+    def test_google_maps_authentication(self):
+        """Test that Google Maps endpoints require authentication"""
+        endpoints_to_test = [
+            ("POST", "/maps/geocode", {"address": "Istanbul"}),
+            ("POST", "/maps/directions", {"origin": "Istanbul", "destination": "Ankara"}),
+            ("POST", "/maps/places/search", {"query": "restoran"}),
+            ("GET", "/maps/reverse-geocode", {"lat": 41.0082, "lng": 28.9784})
+        ]
+        
+        all_success = True
+        
+        for method, endpoint, params in endpoints_to_test:
+            # Test without token
+            success, response = self.make_request(method, endpoint, params=params)
+            
+            if not success:
+                self.log_test(f"Maps Auth {method} {endpoint}", False, "İstek başarısız", response)
+                all_success = False
+                continue
+                
+            if response.status_code == 401:
+                self.log_test(f"Maps Auth {method} {endpoint}", True, "Yetkilendirme gereksinimi doğru")
+            else:
+                self.log_test(f"Maps Auth {method} {endpoint}", False, 
+                            f"Beklenen 401, alınan {response.status_code}")
+                all_success = False
+                
+        return all_success
+    
+    def test_google_maps_integration_flow(self):
+        """Test full Google Maps integration flow"""
+        if 'kurye' not in self.tokens or not self.tokens['kurye']:
+            self.log_test("Google Maps Integration Flow", False, "Kurye token'ı bulunamadı")
+            return False
+            
+        # Step 1: Geocode pickup address
+        pickup_address = "Kadıköy İskele, İstanbul"
+        success, response = self.make_request("POST", "/maps/geocode", 
+                                            token=self.tokens['kurye'], 
+                                            params={"address": pickup_address})
+        
+        if not success or response.status_code != 200:
+            self.log_test("Google Maps Integration Flow", False, "Pickup geocoding başarısız")
+            return False
+            
+        pickup_data = response.json()
+        if not pickup_data.get("success"):
+            self.log_test("Google Maps Integration Flow", False, "Pickup geocoding sonucu başarısız")
+            return False
+        
+        # Step 2: Geocode delivery address
+        delivery_address = "Taksim Meydanı, İstanbul"
+        success, response = self.make_request("POST", "/maps/geocode", 
+                                            token=self.tokens['kurye'], 
+                                            params={"address": delivery_address})
+        
+        if not success or response.status_code != 200:
+            self.log_test("Google Maps Integration Flow", False, "Delivery geocoding başarısız")
+            return False
+            
+        delivery_data = response.json()
+        if not delivery_data.get("success"):
+            self.log_test("Google Maps Integration Flow", False, "Delivery geocoding sonucu başarısız")
+            return False
+        
+        # Step 3: Get directions
+        success, response = self.make_request("POST", "/maps/directions", 
+                                            token=self.tokens['kurye'], 
+                                            params={
+                                                "origin": pickup_address,
+                                                "destination": delivery_address
+                                            })
+        
+        if not success or response.status_code != 200:
+            self.log_test("Google Maps Integration Flow", False, "Directions başarısız")
+            return False
+            
+        directions_data = response.json()
+        if not directions_data.get("success"):
+            self.log_test("Google Maps Integration Flow", False, "Directions sonucu başarısız")
+            return False
+        
+        # Success
+        distance = directions_data.get("distance_text", "N/A")
+        duration = directions_data.get("duration_text", "N/A")
+        
+        self.log_test("Google Maps Integration Flow", True, 
+                    f"Tam entegrasyon başarılı: {pickup_address} → {delivery_address} ({distance}, {duration})")
+        return True
+    
     def run_all_tests(self):
         """Run all backend tests"""
         print("🚀 Mobil Kargo Backend API Test Başlıyor...")
