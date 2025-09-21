@@ -339,6 +339,31 @@ export default function CustomerDashboard() {
                     </View>
                   </View>
                 )}
+
+                {/* Order Approval Button for Pending Orders */}
+                {order.status === 'pending' && (
+                  <View style={styles.approvalContainer}>
+                    <Text style={styles.approvalText}>
+                      Bu sipariş sizin için oluşturuldu. Onaylamak istiyor musunuz?
+                    </Text>
+                    <View style={styles.approvalButtons}>
+                      <TouchableOpacity 
+                        style={styles.approveButton}
+                        onPress={() => approveOrder(order.id)}
+                      >
+                        <Ionicons name="checkmark-circle" size={20} color="#FFF" />
+                        <Text style={styles.approveButtonText}>Siparişi Onayla</Text>
+                      </TouchableOpacity>
+                      <TouchableOpacity 
+                        style={styles.rejectButton}
+                        onPress={() => rejectOrder(order.id)}
+                      >
+                        <Ionicons name="close-circle" size={20} color="#FFF" />
+                        <Text style={styles.rejectButtonText}>Reddet</Text>
+                      </TouchableOpacity>
+                    </View>
+                  </View>
+                )}
               </View>
             ))
           )}
