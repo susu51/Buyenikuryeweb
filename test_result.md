@@ -191,28 +191,64 @@ backend:
 
 frontend:
   - task: "Authentication screens (login/register)"
-    implemented: false
+    implemented: true
     working: "NA"
     file: "app/index.tsx"
     stuck_count: 0
     priority: "high"
-    needs_retesting: false
+    needs_retesting: true
     status_history:
       - working: "NA"
         agent: "main"
-        comment: "Login/register screens with role selection"
+        comment: "Login/register screens with role selection implemented, ready for testing"
 
   - task: "Role-based navigation system"
-    implemented: false
+    implemented: true
     working: "NA"
     file: "app/_layout.tsx"
     stuck_count: 0
     priority: "high"
-    needs_retesting: false
+    needs_retesting: true
     status_history:
       - working: "NA"
         agent: "main"
-        comment: "Different dashboard navigation for each role"
+        comment: "Navigation system with 3 dashboards created, needs testing"
+
+  - task: "Kurye Dashboard"
+    implemented: true
+    working: "NA"
+    file: "app/courier.tsx"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: true
+    status_history:
+      - working: "NA"
+        agent: "main"
+        comment: "Courier dashboard with order management implemented"
+
+  - task: "İşletme Dashboard"
+    implemented: true
+    working: "NA"
+    file: "app/business.tsx"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: true
+    status_history:
+      - working: "NA"
+        agent: "main"
+        comment: "Business dashboard with order creation implemented"
+
+  - task: "Müşteri Dashboard"
+    implemented: true
+    working: "NA"
+    file: "app/customer.tsx"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: true
+    status_history:
+      - working: "NA"
+        agent: "main"
+        comment: "Customer dashboard with order tracking implemented"
 
   - task: "Google Maps integration"
     implemented: false
@@ -224,7 +260,7 @@ frontend:
     status_history:
       - working: "NA"
         agent: "main"
-        comment: "Maps with location tracking and markers"
+        comment: "Maps with location tracking and markers - planned after frontend testing"
 
   - task: "Push notification setup"
     implemented: false
@@ -236,7 +272,7 @@ frontend:
     status_history:
       - working: "NA"
         agent: "main"
-        comment: "Push notifications for order updates"
+        comment: "Push notifications for order updates - planned after core testing"
 
 metadata:
   created_by: "main_agent"
