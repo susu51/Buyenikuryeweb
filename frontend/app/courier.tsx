@@ -310,6 +310,36 @@ export default function CourierDashboard() {
           </View>
         )}
 
+        {/* Tab Navigation */}
+        <View style={styles.tabContainer}>
+          <TouchableOpacity
+            style={[styles.tabButton, activeTab === 'orders' && styles.activeTab]}
+            onPress={() => setActiveTab('orders')}
+          >
+            <Ionicons 
+              name="list" 
+              size={20} 
+              color={activeTab === 'orders' ? '#FF6B35' : '#666'} 
+            />
+            <Text style={[styles.tabText, activeTab === 'orders' && styles.activeTabText]}>
+              Siparişler
+            </Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={[styles.tabButton, activeTab === 'map' && styles.activeTab]}
+            onPress={() => setActiveTab('map')}
+          >
+            <Ionicons 
+              name="map" 
+              size={20} 
+              color={activeTab === 'map' ? '#FF6B35' : '#666'} 
+            />
+            <Text style={[styles.tabText, activeTab === 'map' && styles.activeTabText]}>
+              Harita
+            </Text>
+          </TouchableOpacity>
+        </View>
+
         {/* Available Orders */}
         <View style={styles.section}>
           <Text style={styles.sectionTitle}>Müsait Siparişler</Text>
