@@ -40,7 +40,7 @@ class MobilKargoTester:
             print(f"   Details: {details}")
     
     def make_request(self, method: str, endpoint: str, data: Dict = None, 
-                    headers: Dict = None, token: str = None) -> tuple:
+                    headers: Dict = None, token: str = None, params: Dict = None) -> tuple:
         """Make HTTP request with error handling"""
         url = f"{BASE_URL}{endpoint}"
         
@@ -53,13 +53,13 @@ class MobilKargoTester:
             
         try:
             if method.upper() == "GET":
-                response = self.session.get(url, headers=req_headers)
+                response = self.session.get(url, headers=req_headers, params=params)
             elif method.upper() == "POST":
-                response = self.session.post(url, json=data, headers=req_headers)
+                response = self.session.post(url, json=data, headers=req_headers, params=params)
             elif method.upper() == "PUT":
-                response = self.session.put(url, json=data, headers=req_headers)
+                response = self.session.put(url, json=data, headers=req_headers, params=params)
             elif method.upper() == "DELETE":
-                response = self.session.delete(url, headers=req_headers)
+                response = self.session.delete(url, headers=req_headers, params=params)
             else:
                 return False, {"error": f"Unsupported method: {method}"}
                 
