@@ -59,6 +59,7 @@ export default function CourierDashboard() {
   const [loading, setLoading] = useState(true);
   const [refreshing, setRefreshing] = useState(false);
   const [assigningOrder, setAssigningOrder] = useState<string | null>(null);
+  const [activeTab, setActiveTab] = useState<'orders' | 'map'>('orders');
 
   useEffect(() => {
     loadUserData();
