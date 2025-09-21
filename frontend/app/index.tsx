@@ -102,6 +102,8 @@ export default function LoginScreen() {
 
     setLoading(true);
     try {
+      console.log('Login attempt:', { email: email.toLowerCase(), backend_url: BACKEND_URL });
+      
       const response = await fetch(`${BACKEND_URL}/api/auth/login`, {
         method: 'POST',
         headers: {
@@ -113,9 +115,12 @@ export default function LoginScreen() {
         }),
       });
 
-      const data: AuthResponse = await response.json();
-
+      console.log('Login response status:', response.status);
+      
       if (response.ok) {
+        const data: AuthResponse = await response.json();
+        console.log('Login success:', { user_role: data.user.role, user_name: data.user.full_name });
+
         await AsyncStorage.setItem('authToken', data.access_token);
         await AsyncStorage.setItem('userData', JSON.stringify(data.user));
         
@@ -126,11 +131,13 @@ export default function LoginScreen() {
           }
         ]);
       } else {
-        Alert.alert('Hata', data.detail || 'Giriş başarısız');
+        const errorData = await response.json().catch(() => ({ detail: 'Bilinmeyen hata' }));
+        console.log('Login error:', errorData);
+        Alert.alert('Hata', errorData.detail || 'Giriş başarısız');
       }
     } catch (error) {
-      console.error('Login error:', error);
-      Alert.alert('Hata', 'Bağlantı hatası. Lütfen tekrar deneyin.');
+      console.error('Login network error:', error);
+      Alert.alert('Hata', 'Bağlantı hatası. Lütfen internet bağlantınızı kontrol edin.');
     } finally {
       setLoading(false);
     }
