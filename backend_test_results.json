@@ -1,8 +1,8 @@
 {
   "summary": {
-    "passed": 12,
-    "total": 12,
-    "success_rate": 100.0
+    "passed": 17,
+    "total": 18,
+    "success_rate": 94.4
   },
   "results": [
     {
@@ -10,169 +10,281 @@
       "success": true,
       "message": "API aktif: Mobil Kargo API v1.0.0",
       "details": null,
-      "timestamp": "2025-09-21T21:08:12.967675"
+      "timestamp": "2025-09-21T21:47:47.637362"
     },
     {
       "test": "Register kurye",
       "success": true,
       "message": "Kullanıcı zaten mevcut: ahmet.kurye@test.com",
       "details": null,
-      "timestamp": "2025-09-21T21:08:12.981256"
+      "timestamp": "2025-09-21T21:47:47.660460"
     },
     {
       "test": "Register isletme",
       "success": true,
       "message": "Kullanıcı zaten mevcut: kargo.isletme@test.com",
       "details": null,
-      "timestamp": "2025-09-21T21:08:13.032626"
+      "timestamp": "2025-09-21T21:47:47.674927"
     },
     {
       "test": "Register musteri",
       "success": true,
       "message": "Kullanıcı zaten mevcut: ayse.musteri@test.com",
       "details": null,
-      "timestamp": "2025-09-21T21:08:13.044784"
+      "timestamp": "2025-09-21T21:47:47.684778"
     },
     {
       "test": "Login kurye",
       "success": true,
       "message": "Giriş başarılı: Ahmet Yılmaz",
       "details": null,
-      "timestamp": "2025-09-21T21:08:13.288629"
+      "timestamp": "2025-09-21T21:47:47.953347"
     },
     {
       "test": "Login isletme",
       "success": true,
       "message": "Giriş başarılı: Mehmet Özkan",
       "details": null,
-      "timestamp": "2025-09-21T21:08:13.531496"
+      "timestamp": "2025-09-21T21:47:48.199206"
     },
     {
       "test": "Login musteri",
       "success": true,
       "message": "Giriş başarılı: Ayşe Demir",
       "details": null,
-      "timestamp": "2025-09-21T21:08:13.813623"
+      "timestamp": "2025-09-21T21:47:48.440152"
     },
     {
       "test": "Get User Info kurye",
       "success": true,
       "message": "Kullanıcı bilgisi alındı: Ahmet Yılmaz (kurye)",
       "details": null,
-      "timestamp": "2025-09-21T21:08:13.824491"
+      "timestamp": "2025-09-21T21:47:48.449869"
     },
     {
       "test": "Get User Info isletme",
       "success": true,
       "message": "Kullanıcı bilgisi alındı: Mehmet Özkan (isletme)",
       "details": null,
-      "timestamp": "2025-09-21T21:08:13.874384"
+      "timestamp": "2025-09-21T21:47:48.459075"
     },
     {
       "test": "Get User Info musteri",
       "success": true,
       "message": "Kullanıcı bilgisi alındı: Ayşe Demir (musteri)",
       "details": null,
-      "timestamp": "2025-09-21T21:08:13.883513"
+      "timestamp": "2025-09-21T21:47:48.471315"
     },
     {
       "test": "Unauthorized Access",
       "success": true,
       "message": "Yetkisiz erişim doğru şekilde engellendi (HTTP 403)",
       "details": null,
-      "timestamp": "2025-09-21T21:08:13.933451"
+      "timestamp": "2025-09-21T21:47:48.479104"
     },
     {
       "test": "Order Creation",
       "success": true,
-      "message": "Sipariş oluşturuldu: 904767d5-1f8d-4073-b700-0c23502eb7ac - Elektronik ürün - Laptop",
+      "message": "Sipariş oluşturuldu: b4f3da33-b6b1-42e9-a4b7-cc7601ba6c80 - Elektronik ürün - Laptop",
       "details": null,
-      "timestamp": "2025-09-21T21:08:13.944633"
+      "timestamp": "2025-09-21T21:47:48.531206"
     },
     {
       "test": "Get Orders kurye",
       "success": true,
-      "message": "Siparişler alındı: 3 sipariş",
+      "message": "Siparişler alındı: 4 sipariş",
       "details": null,
-      "timestamp": "2025-09-21T21:08:13.955315"
+      "timestamp": "2025-09-21T21:47:48.542326"
     },
     {
       "test": "Get Orders isletme",
       "success": true,
-      "message": "Siparişler alındı: 3 sipariş",
+      "message": "Siparişler alındı: 4 sipariş",
       "details": null,
-      "timestamp": "2025-09-21T21:08:13.966158"
+      "timestamp": "2025-09-21T21:47:48.552812"
     },
     {
       "test": "Get Orders musteri",
       "success": true,
-      "message": "Siparişler alındı: 3 sipariş",
+      "message": "Siparişler alındı: 4 sipariş",
       "details": null,
-      "timestamp": "2025-09-21T21:08:13.976888"
+      "timestamp": "2025-09-21T21:47:48.562755"
     },
     {
       "test": "Order Assignment",
       "success": true,
       "message": "Sipariş atandı: Sipariş başarıyla alındı",
       "details": null,
-      "timestamp": "2025-09-21T21:08:14.028057"
+      "timestamp": "2025-09-21T21:47:48.574224"
     },
     {
       "test": "Status Update picked_up",
       "success": true,
       "message": "Durum güncellendi: Sipariş durumu güncellendi",
       "details": null,
-      "timestamp": "2025-09-21T21:08:14.080445"
+      "timestamp": "2025-09-21T21:47:48.585032"
     },
     {
       "test": "Status Update in_transit",
       "success": true,
       "message": "Durum güncellendi: Sipariş durumu güncellendi",
       "details": null,
-      "timestamp": "2025-09-21T21:08:15.094160"
+      "timestamp": "2025-09-21T21:47:49.596075"
     },
     {
       "test": "Status Update delivered",
       "success": true,
       "message": "Durum güncellendi: Sipariş durumu güncellendi",
       "details": null,
-      "timestamp": "2025-09-21T21:08:16.106314"
+      "timestamp": "2025-09-21T21:47:50.609029"
     },
     {
       "test": "Location Update",
       "success": true,
       "message": "Konum güncellendi: Konum güncellendi",
       "details": null,
-      "timestamp": "2025-09-21T21:08:17.117795"
+      "timestamp": "2025-09-21T21:47:51.621548"
     },
     {
       "test": "Dashboard Stats kurye",
       "success": true,
-      "message": "İstatistikler alındı: total_deliveries: 2, pending_orders: 1, total_earnings: 51.0, rating: 5.0",
+      "message": "İstatistikler alındı: total_deliveries: 3, pending_orders: 1, total_earnings: 76.5, rating: 5.0",
       "details": null,
-      "timestamp": "2025-09-21T21:08:17.129026"
+      "timestamp": "2025-09-21T21:47:51.633394"
     },
     {
       "test": "Dashboard Stats isletme",
       "success": true,
-      "message": "İstatistikler alındı: total_orders: 3, pending_orders: 0, delivered_orders: 2, success_rate: 66.7",
+      "message": "İstatistikler alındı: total_orders: 4, pending_orders: 0, delivered_orders: 3, success_rate: 75.0",
       "details": null,
-      "timestamp": "2025-09-21T21:08:17.143049"
+      "timestamp": "2025-09-21T21:47:51.645138"
     },
     {
       "test": "Dashboard Stats musteri",
       "success": true,
-      "message": "İstatistikler alındı: total_orders: 3, pending_orders: 1, delivered_orders: 2",
+      "message": "İstatistikler alındı: total_orders: 4, pending_orders: 1, delivered_orders: 3",
       "details": null,
-      "timestamp": "2025-09-21T21:08:17.194144"
+      "timestamp": "2025-09-21T21:47:51.696740"
     },
     {
       "test": "WebSocket Connection",
       "success": true,
       "message": "WebSocket bağlantısı başarılı",
       "details": null,
-      "timestamp": "2025-09-21T21:08:17.259473"
+      "timestamp": "2025-09-21T21:47:51.763438"
+    },
+    {
+      "test": "Geocoding Kadıköy, İstanbul",
+      "success": true,
+      "message": "Koordinatlar alındı: 41.0932, 29.0634",
+      "details": null,
+      "timestamp": "2025-09-21T21:47:51.773991"
+    },
+    {
+      "test": "Geocoding Beşiktaş, İstanbul",
+      "success": true,
+      "message": "Koordinatlar alındı: 41.0582, 29.0284",
+      "details": null,
+      "timestamp": "2025-09-21T21:47:51.783416"
+    },
+    {
+      "test": "Geocoding Taksim Meydanı, İstanbul",
+      "success": true,
+      "message": "Koordinatlar alındı: 41.0122, 28.9824",
+      "details": null,
+      "timestamp": "2025-09-21T21:47:51.792204"
+    },
+    {
+      "test": "Geocoding Galata Kulesi, İstanbul",
+      "success": true,
+      "message": "Koordinatlar alındı: 41.0812, 29.0514",
+      "details": null,
+      "timestamp": "2025-09-21T21:47:51.842337"
+    },
+    {
+      "test": "Directions Kadıköy, İstanbul → Beşiktaş, İstanbul",
+      "success": true,
+      "message": "Rota bulundu: 5.0 km, 15 dakika",
+      "details": null,
+      "timestamp": "2025-09-21T21:47:51.852420"
+    },
+    {
+      "test": "Directions Taksim, İstanbul → Sultanahmet, İstanbul",
+      "success": true,
+      "message": "Rota bulundu: 5.0 km, 15 dakika",
+      "details": null,
+      "timestamp": "2025-09-21T21:47:51.901628"
+    },
+    {
+      "test": "Places Search restoran (41.0082,28.9784 yakınında)",
+      "success": true,
+      "message": "1 yer bulundu",
+      "details": null,
+      "timestamp": "2025-09-21T21:47:51.911331"
+    },
+    {
+      "test": "Places Search hastane (41.0082,28.9784 yakınında)",
+      "success": true,
+      "message": "1 yer bulundu",
+      "details": null,
+      "timestamp": "2025-09-21T21:47:51.925897"
+    },
+    {
+      "test": "Places Search eczane",
+      "success": true,
+      "message": "1 yer bulundu",
+      "details": null,
+      "timestamp": "2025-09-21T21:47:51.975128"
+    },
+    {
+      "test": "Reverse Geocoding İstanbul merkez",
+      "success": true,
+      "message": "Adres bulundu: İstanbul, Türkiye",
+      "details": null,
+      "timestamp": "2025-09-21T21:47:52.024285"
+    },
+    {
+      "test": "Reverse Geocoding Sultanahmet bölgesi",
+      "success": true,
+      "message": "Adres bulundu: İstanbul, Türkiye",
+      "details": null,
+      "timestamp": "2025-09-21T21:47:52.033729"
+    },
+    {
+      "test": "Maps Auth POST /maps/geocode",
+      "success": false,
+      "message": "Beklenen 401, alınan 403",
+      "details": null,
+      "timestamp": "2025-09-21T21:47:52.041245"
+    },
+    {
+      "test": "Maps Auth POST /maps/directions",
+      "success": false,
+      "message": "Beklenen 401, alınan 403",
+      "details": null,
+      "timestamp": "2025-09-21T21:47:52.048671"
+    },
+    {
+      "test": "Maps Auth POST /maps/places/search",
+      "success": false,
+      "message": "Beklenen 401, alınan 403",
+      "details": null,
+      "timestamp": "2025-09-21T21:47:52.097016"
+    },
+    {
+      "test": "Maps Auth GET /maps/reverse-geocode",
+      "success": false,
+      "message": "Beklenen 401, alınan 403",
+      "details": null,
+      "timestamp": "2025-09-21T21:47:52.104759"
+    },
+    {
+      "test": "Google Maps Integration Flow",
+      "success": true,
+      "message": "Tam entegrasyon başarılı: Kadıköy İskele, İstanbul → Taksim Meydanı, İstanbul (5.0 km, 15 dakika)",
+      "details": null,
+      "timestamp": "2025-09-21T21:47:52.173046"
     }
   ],
-  "timestamp": "2025-09-21T21:08:17.260045"
+  "timestamp": "2025-09-21T21:47:52.173229"
 }
