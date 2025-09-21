@@ -768,6 +768,170 @@ async def create_rating(rating_data: Rating, current_user: User = Depends(get_cu
     
     return {"message": "Değerlendirme kaydedildi"}
 
+# Google Maps API endpoints
+@app.post("/api/maps/geocode")
+async def geocode_address(address: str, current_user: User = Depends(get_current_user)):
+    """Geocode address to coordinates"""
+    try:
+        params = {
+            'address': address,
+            'language': 'tr',
+            'region': 'tr'
+        }
+        
+        result = await google_maps_service.make_google_request('geocode/json', params)
+        
+        if result.get('status') == 'OK' and result.get('results'):
+            location_data = result['results'][0]
+            return {
+                "success": True,
+                "coordinates": location_data['geometry']['location'],
+                "formatted_address": location_data['formatted_address'],
+                "place_id": location_data.get('place_id'),
+                "location_type": location_data['geometry'].get('location_type')
+            }
+        else:
+            raise HTTPException(status_code=404, detail="Adres bulunamadı")
+    
+    except Exception as e:
+        print(f"Geocoding error: {e}")
+        raise HTTPException(status_code=500, detail="Adres koordinatları alınamadı")
+
+@app.post("/api/maps/directions")
+async def get_directions(
+    origin: str, 
+    destination: str, 
+    waypoints: Optional[str] = None,
+    current_user: User = Depends(get_current_user)
+):
+    """Get directions between points"""
+    try:
+        params = {
+            'origin': origin,
+            'destination': destination,
+            'mode': 'driving',
+            'language': 'tr',
+            'region': 'tr',
+            'avoid': 'tolls'
+        }
+        
+        if waypoints:
+            params['waypoints'] = waypoints
+        
+        result = await google_maps_service.make_google_request('directions/json', params)
+        
+        if result.get('status') == 'OK' and result.get('routes'):
+            route = result['routes'][0]
+            leg = route['legs'][0]
+            
+            return {
+                "success": True,
+                "distance": leg['distance']['value'],
+                "distance_text": leg['distance']['text'],
+                "duration": leg['duration']['value'],
+                "duration_text": leg['duration']['text'],
+                "start_address": leg['start_address'],
+                "end_address": leg['end_address'],
+                "polyline": route['overview_polyline']['points'],
+                "steps": [
+                    {
+                        "instruction": step['html_instructions'],
+                        "distance": step['distance']['value'],
+                        "duration": step['duration']['value']
+                    }
+                    for step in leg['steps']
+                ]
+            }
+        else:
+            raise HTTPException(status_code=404, detail="Rota bulunamadı")
+    
+    except Exception as e:
+        print(f"Directions error: {e}")
+        raise HTTPException(status_code=500, detail="Rota bilgisi alınamadı")
+
+@app.post("/api/maps/places/search")
+async def search_places(
+    query: str, 
+    location: Optional[str] = None,
+    current_user: User = Depends(get_current_user)
+):
+    """Search for places"""
+    try:
+        params = {
+            'query': query,
+            'language': 'tr',
+            'region': 'tr'
+        }
+        
+        if location:
+            params['location'] = location
+            params['radius'] = 5000
+        
+        result = await google_maps_service.make_google_request('place/textsearch/json', params)
+        
+        if result.get('status') == 'OK':
+            places = []
+            for place in result.get('results', [])[:10]:  # Limit to 10 results
+                places.append({
+                    "name": place.get('name'),
+                    "formatted_address": place.get('formatted_address'),
+                    "coordinates": place['geometry']['location'],
+                    "place_id": place.get('place_id'),
+                    "rating": place.get('rating'),
+                    "types": place.get('types', [])
+                })
+            
+            return {
+                "success": True,
+                "places": places
+            }
+        else:
+            return {
+                "success": True,
+                "places": []
+            }
+    
+    except Exception as e:
+        print(f"Places search error: {e}")
+        raise HTTPException(status_code=500, detail="Yer arama başarısız")
+
+@app.get("/api/maps/reverse-geocode")
+async def reverse_geocode(
+    lat: float, 
+    lng: float, 
+    current_user: User = Depends(get_current_user)
+):
+    """Convert coordinates to address"""
+    try:
+        params = {
+            'latlng': f"{lat},{lng}",
+            'language': 'tr',
+            'region': 'tr'
+        }
+        
+        result = await google_maps_service.make_google_request('geocode/json', params)
+        
+        if result.get('status') == 'OK' and result.get('results'):
+            address_data = result['results'][0]
+            return {
+                "success": True,
+                "formatted_address": address_data['formatted_address'],
+                "place_id": address_data.get('place_id'),
+                "address_components": address_data.get('address_components', [])
+            }
+        else:
+            return {
+                "success": False,
+                "formatted_address": f"Yaklaşık konum: {lat:.4f}, {lng:.4f}"
+            }
+    
+    except Exception as e:
+        print(f"Reverse geocoding error: {e}")
+        return {
+            "success": False,
+            "formatted_address": f"Konum: {lat:.4f}, {lng:.4f}"
+        }
+
 @app.get("/api/dashboard/stats")
 async def get_dashboard_stats(current_user: User = Depends(get_current_user)):
     if current_user.role == UserRole.KURYE:
