@@ -1,0 +1,178 @@
+{
+  "summary": {
+    "passed": 9,
+    "total": 12,
+    "success_rate": 75.0
+  },
+  "results": [
+    {
+      "test": "API Health Check",
+      "success": true,
+      "message": "API aktif: Mobil Kargo API v1.0.0",
+      "details": null,
+      "timestamp": "2025-09-21T21:06:25.450456"
+    },
+    {
+      "test": "Register kurye",
+      "success": true,
+      "message": "Kullanıcı kaydı başarılı: Ahmet Yılmaz",
+      "details": null,
+      "timestamp": "2025-09-21T21:06:25.744718"
+    },
+    {
+      "test": "Register isletme",
+      "success": true,
+      "message": "Kullanıcı kaydı başarılı: Mehmet Özkan",
+      "details": null,
+      "timestamp": "2025-09-21T21:06:25.992135"
+    },
+    {
+      "test": "Register musteri",
+      "success": true,
+      "message": "Kullanıcı kaydı başarılı: Ayşe Demir",
+      "details": null,
+      "timestamp": "2025-09-21T21:06:26.247364"
+    },
+    {
+      "test": "Login kurye",
+      "success": true,
+      "message": "Giriş başarılı: Ahmet Yılmaz",
+      "details": null,
+      "timestamp": "2025-09-21T21:06:26.490986"
+    },
+    {
+      "test": "Login isletme",
+      "success": true,
+      "message": "Giriş başarılı: Mehmet Özkan",
+      "details": null,
+      "timestamp": "2025-09-21T21:06:26.734958"
+    },
+    {
+      "test": "Login musteri",
+      "success": true,
+      "message": "Giriş başarılı: Ayşe Demir",
+      "details": null,
+      "timestamp": "2025-09-21T21:06:26.978483"
+    },
+    {
+      "test": "Get User Info kurye",
+      "success": true,
+      "message": "Kullanıcı bilgisi alındı: Ahmet Yılmaz (kurye)",
+      "details": null,
+      "timestamp": "2025-09-21T21:06:26.991061"
+    },
+    {
+      "test": "Get User Info isletme",
+      "success": true,
+      "message": "Kullanıcı bilgisi alındı: Mehmet Özkan (isletme)",
+      "details": null,
+      "timestamp": "2025-09-21T21:06:27.010473"
+    },
+    {
+      "test": "Get User Info musteri",
+      "success": true,
+      "message": "Kullanıcı bilgisi alındı: Ayşe Demir (musteri)",
+      "details": null,
+      "timestamp": "2025-09-21T21:06:27.106171"
+    },
+    {
+      "test": "Unauthorized Access",
+      "success": false,
+      "message": "Beklenen 401, alınan 403",
+      "details": null,
+      "timestamp": "2025-09-21T21:06:27.116800"
+    },
+    {
+      "test": "Order Creation",
+      "success": true,
+      "message": "Sipariş oluşturuldu: 3c131bde-3f54-42fb-a295-244e28df4fa3 - Elektronik ürün - Laptop",
+      "details": null,
+      "timestamp": "2025-09-21T21:06:27.142040"
+    },
+    {
+      "test": "Get Orders kurye",
+      "success": true,
+      "message": "Siparişler alındı: 1 sipariş",
+      "details": null,
+      "timestamp": "2025-09-21T21:06:27.153556"
+    },
+    {
+      "test": "Get Orders isletme",
+      "success": true,
+      "message": "Siparişler alındı: 1 sipariş",
+      "details": null,
+      "timestamp": "2025-09-21T21:06:27.206677"
+    },
+    {
+      "test": "Get Orders musteri",
+      "success": true,
+      "message": "Siparişler alındı: 1 sipariş",
+      "details": null,
+      "timestamp": "2025-09-21T21:06:27.219279"
+    },
+    {
+      "test": "Order Assignment",
+      "success": true,
+      "message": "Sipariş atandı: Sipariş başarıyla alındı",
+      "details": null,
+      "timestamp": "2025-09-21T21:06:27.306143"
+    },
+    {
+      "test": "Status Update picked_up",
+      "success": false,
+      "message": "Durum güncellenemedi: [{'type': 'missing', 'loc': ['query', 'status'], 'msg': 'Field required', 'input': None, 'url': 'https://errors.pydantic.dev/2.11/v/missing'}]",
+      "details": null,
+      "timestamp": "2025-09-21T21:06:27.318112"
+    },
+    {
+      "test": "Status Update in_transit",
+      "success": false,
+      "message": "Durum güncellenemedi: [{'type': 'missing', 'loc': ['query', 'status'], 'msg': 'Field required', 'input': None, 'url': 'https://errors.pydantic.dev/2.11/v/missing'}]",
+      "details": null,
+      "timestamp": "2025-09-21T21:06:28.329969"
+    },
+    {
+      "test": "Status Update delivered",
+      "success": false,
+      "message": "Durum güncellenemedi: [{'type': 'missing', 'loc': ['query', 'status'], 'msg': 'Field required', 'input': None, 'url': 'https://errors.pydantic.dev/2.11/v/missing'}]",
+      "details": null,
+      "timestamp": "2025-09-21T21:06:29.343701"
+    },
+    {
+      "test": "Location Update",
+      "success": true,
+      "message": "Konum güncellendi: Konum güncellendi",
+      "details": null,
+      "timestamp": "2025-09-21T21:06:30.371280"
+    },
+    {
+      "test": "Dashboard Stats kurye",
+      "success": true,
+      "message": "İstatistikler alındı: total_deliveries: 0, pending_orders: 1, total_earnings: 0, rating: 5.0",
+      "details": null,
+      "timestamp": "2025-09-21T21:06:30.387142"
+    },
+    {
+      "test": "Dashboard Stats isletme",
+      "success": true,
+      "message": "İstatistikler alındı: total_orders: 1, pending_orders: 0, delivered_orders: 0, success_rate: 0.0",
+      "details": null,
+      "timestamp": "2025-09-21T21:06:30.400658"
+    },
+    {
+      "test": "Dashboard Stats musteri",
+      "success": true,
+      "message": "İstatistikler alındı: total_orders: 1, pending_orders: 1, delivered_orders: 0",
+      "details": null,
+      "timestamp": "2025-09-21T21:06:30.454615"
+    },
+    {
+      "test": "WebSocket Connection",
+      "success": false,
+      "message": "WebSocket bağlantısı başarısız: No module named 'websocket'",
+      "details": null,
+      "timestamp": "2025-09-21T21:06:30.454842"
+    }
+  ],
+  "timestamp": "2025-09-21T21:06:30.454974"
+}
