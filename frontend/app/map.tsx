@@ -6,13 +6,19 @@ import {
   TouchableOpacity,
   Alert,
   ScrollView,
-  ActivityIndicator
+  ActivityIndicator,
+  Platform
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Ionicons } from '@expo/vector-icons';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { router } from 'expo-router';
-import DeliveryMap from '../components/MapView';
+
+// Import MapView only on native platforms
+let DeliveryMap: any = null;
+if (Platform.OS !== 'web') {
+  DeliveryMap = require('../components/MapView').default;
+}
 
 const BACKEND_URL = process.env.EXPO_PUBLIC_BACKEND_URL || 'http://localhost:8001';
 
