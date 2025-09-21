@@ -234,12 +234,14 @@ export default function CourierDashboard() {
           <TouchableOpacity style={styles.logoutButton} onPress={logout}>
             <Ionicons name="log-out" size={24} color="#FF6B35" />
           </TouchableOpacity>
-          <TouchableOpacity 
-            style={styles.mapButton} 
-            onPress={() => router.push('/map')}
-          >
-            <Ionicons name="map" size={24} color="#2196F3" />
-          </TouchableOpacity>
+          {Platform.OS !== 'web' && (
+            <TouchableOpacity 
+              style={styles.mapButton} 
+              onPress={() => router.push('/map')}
+            >
+              <Ionicons name="map" size={24} color="#2196F3" />
+            </TouchableOpacity>
+          )}
         </View>
 
         {/* Stats Cards */}
