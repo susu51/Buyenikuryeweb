@@ -711,7 +711,13 @@ class MobilKargoTester:
             ("Order Status Updates", self.test_order_status_updates),
             ("Location Update", self.test_location_update),
             ("Dashboard Stats", self.test_dashboard_stats),
-            ("WebSocket Connection", self.test_websocket_connection)
+            ("WebSocket Connection", self.test_websocket_connection),
+            ("Google Maps Geocoding", self.test_google_maps_geocoding),
+            ("Google Maps Directions", self.test_google_maps_directions),
+            ("Google Maps Places Search", self.test_google_maps_places_search),
+            ("Google Maps Reverse Geocoding", self.test_google_maps_reverse_geocoding),
+            ("Google Maps Authentication", self.test_google_maps_authentication),
+            ("Google Maps Integration Flow", self.test_google_maps_integration_flow)
         ]
         
         passed = 0
