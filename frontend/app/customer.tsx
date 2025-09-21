@@ -293,6 +293,15 @@ export default function CustomerDashboard() {
                         <Text style={styles.trackButtonText}>Takip Et</Text>
                       </TouchableOpacity>
                     )}
+                    {order.courier_id && ['assigned', 'picked_up', 'in_transit'].includes(order.status) && (
+                      <TouchableOpacity
+                        style={[styles.trackButton, { backgroundColor: '#2196F3', marginTop: 4 }]}
+                        onPress={() => router.push('/map')}
+                      >
+                        <Ionicons name="map" size={16} color="#FFF" />
+                        <Text style={styles.trackButtonText}>Haritada Göster</Text>
+                      </TouchableOpacity>
+                    )}
                   </View>
                 </View>
 
