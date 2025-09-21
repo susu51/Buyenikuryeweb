@@ -362,20 +362,38 @@ export default function CourierDashboard() {
                   </TouchableOpacity>
                 )}
                 {order.status === 'picked_up' && (
-                  <TouchableOpacity
-                    style={styles.actionButton}
-                    onPress={() => updateOrderStatus(order.id, 'in_transit')}
-                  >
-                    <Text style={styles.actionButtonText}>Yola Çık</Text>
-                  </TouchableOpacity>
+                  <View style={styles.actionButtonsContainer}>
+                    <TouchableOpacity
+                      style={[styles.actionButton, styles.routeButton]}
+                      onPress={() => openDirections(order)}
+                    >
+                      <Ionicons name="navigate" size={16} color="#FFF" />
+                      <Text style={styles.actionButtonText}>Yol Tarifi</Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity
+                      style={styles.actionButton}
+                      onPress={() => updateOrderStatus(order.id, 'in_transit')}
+                    >
+                      <Text style={styles.actionButtonText}>Yola Çık</Text>
+                    </TouchableOpacity>
+                  </View>
                 )}
                 {order.status === 'in_transit' && (
-                  <TouchableOpacity
-                    style={[styles.actionButton, styles.deliveredButton]}
-                    onPress={() => updateOrderStatus(order.id, 'delivered')}
-                  >
-                    <Text style={styles.actionButtonText}>Teslim Edildi</Text>
-                  </TouchableOpacity>
+                  <View style={styles.actionButtonsContainer}>
+                    <TouchableOpacity
+                      style={[styles.actionButton, styles.routeButton]}
+                      onPress={() => openDirections(order)}
+                    >
+                      <Ionicons name="navigate" size={16} color="#FFF" />
+                      <Text style={styles.actionButtonText}>Yol Tarifi</Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity
+                      style={[styles.actionButton, styles.deliveredButton]}
+                      onPress={() => updateOrderStatus(order.id, 'delivered')}
+                    >
+                      <Text style={styles.actionButtonText}>Teslim Edildi</Text>
+                    </TouchableOpacity>
+                  </View>
                 )}
               </View>
             ))
