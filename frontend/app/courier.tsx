@@ -640,6 +640,19 @@ const styles = StyleSheet.create({
   deliveredButton: {
     backgroundColor: '#4CAF50',
   },
+  actionButtonsContainer: {
+    flexDirection: 'row',
+    gap: 8,
+    marginTop: 16,
+  },
+  routeButton: {
+    backgroundColor: '#2196F3',
+    flex: 1,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    gap: 4,
+  },
   actionButtonText: {
     color: '#FFF',
     fontSize: 16,
