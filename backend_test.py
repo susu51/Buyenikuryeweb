@@ -319,8 +319,8 @@ class MobilKargoTester:
         all_success = True
         
         for status in statuses:
-            success, response = self.make_request("PUT", f"/orders/{order_id}/status", 
-                                                {"status": status}, token=self.tokens['kurye'])
+            success, response = self.make_request("PUT", f"/orders/{order_id}/status?status={status}", 
+                                                None, token=self.tokens['kurye'])
             
             if not success:
                 self.log_test(f"Status Update {status}", False, "İstek başarısız", response)
