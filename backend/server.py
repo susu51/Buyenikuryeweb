@@ -744,6 +744,44 @@ async def reject_order(order_id: str, current_user: User = Depends(get_current_u
     
     return {"message": "Sipariş reddedildi"}
 
+@app.post("/api/courier/start-work")
+async def start_work(current_user: User = Depends(get_current_user)):
+    if current_user.role != UserRole.KURYE:
+        raise HTTPException(
+            status_code=status.HTTP_403_FORBIDDEN,
+            detail="Sadece kuryeler işe başlayabilir"
+        )
+    
+    # Record work start time
+    work_session = {
+        "_id": str(uuid.uuid4()),
+        "courier_id": current_user.id,
+        "start_time": datetime.utcnow(),
+        "status": "active"
+    }
+    
+    await db.work_sessions.insert_one(work_session)
+    
+    return {"message": "İşe başladınız", "session_id": work_session["_id"]}
+
+@app.get("/api/orders/history")
+async def get_order_history(current_user: User = Depends(get_current_user)):
+    if current_user.role != UserRole.KURYE:
+        raise HTTPException(
+            status_code=status.HTTP_403_FORBIDDEN,
+            detail="Sadece kuryeler geçmiş siparişleri görebilir"
+        )
+    
+    # Get completed orders for courier
+    orders_cursor = db.orders.find({
+        "courier_id": current_user.id,
+        "status": {"$in": [OrderStatus.DELIVERED, OrderStatus.CANCELLED]}
+    }).sort("created_at", -1).limit(20)
+    
+    orders = await orders_cursor.to_list(None)
+    
+    return [Order(**order, id=order["_id"]) for order in orders]
+
 @app.post("/api/location/update")
 async def update_location(location_data: LocationUpdate, current_user: User = Depends(get_current_user)):
     if current_user.role != UserRole.KURYE:
