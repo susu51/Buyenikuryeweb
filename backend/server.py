@@ -660,6 +660,90 @@ async def update_order_status(
     
     return {"message": "Sipariş durumu güncellendi"}
 
+@app.post("/api/orders/{order_id}/approve")
+async def approve_order(order_id: str, current_user: User = Depends(get_current_user)):
+    if current_user.role != UserRole.MUSTERI:
+        raise HTTPException(
+            status_code=status.HTTP_403_FORBIDDEN,
+            detail="Sadece müşteriler sipariş onaylayabilir"
+        )
+    
+    order = await db.orders.find_one({"_id": order_id})
+    if not order:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail="Sipariş bulunamadı"
+        )
+    
+    if order["customer_id"] != current_user.id:
+        raise HTTPException(
+            status_code=status.HTTP_403_FORBIDDEN,
+            detail="Bu siparişi sadece ilgili müşteri onaylayabilir"
+        )
+    
+    if order["status"] != OrderStatus.PENDING:
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail="Sadece bekleyen siparişler onaylanabilir"
+        )
+    
+    # Update order status to approved (ready for courier assignment)
+    await db.orders.update_one(
+        {"_id": order_id},
+        {"$set": {"status": "approved", "approved_at": datetime.utcnow()}}
+    )
+    
+    # Notify business
+    await manager.send_personal_message({
+        "type": "order_approved",
+        "order_id": order_id,
+        "message": "Müşteri siparişi onayladı, kurye ataması yapılabilir"
+    }, order["business_id"])
+    
+    return {"message": "Sipariş onaylandı"}
+
+@app.post("/api/orders/{order_id}/reject")
+async def reject_order(order_id: str, current_user: User = Depends(get_current_user)):
+    if current_user.role != UserRole.MUSTERI:
+        raise HTTPException(
+            status_code=status.HTTP_403_FORBIDDEN,
+            detail="Sadece müşteriler sipariş reddedebilir"
+        )
+    
+    order = await db.orders.find_one({"_id": order_id})
+    if not order:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail="Sipariş bulunamadı"
+        )
+    
+    if order["customer_id"] != current_user.id:
+        raise HTTPException(
+            status_code=status.HTTP_403_FORBIDDEN,
+            detail="Bu siparişi sadece ilgili müşteri reddedebilir"
+        )
+    
+    if order["status"] != OrderStatus.PENDING:
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail="Sadece bekleyen siparişler reddedilebilir"
+        )
+    
+    # Update order status to cancelled
+    await db.orders.update_one(
+        {"_id": order_id},
+        {"$set": {"status": OrderStatus.CANCELLED, "cancelled_at": datetime.utcnow()}}
+    )
+    
+    # Notify business
+    await manager.send_personal_message({
+        "type": "order_rejected",
+        "order_id": order_id,
+        "message": "Müşteri siparişi reddetti"
+    }, order["business_id"])
+    
+    return {"message": "Sipariş reddedildi"}
+
 @app.post("/api/location/update")
 async def update_location(location_data: LocationUpdate, current_user: User = Depends(get_current_user)):
     if current_user.role != UserRole.KURYE:
