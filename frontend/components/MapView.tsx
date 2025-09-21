@@ -271,6 +271,44 @@ export default function DeliveryMap({
     );
   }
 
+  // Web platformu için placeholder
+  if (Platform.OS === 'web' || !MapView) {
+    return (
+      <View style={[styles.container, styles.webMapContainer, style]}>
+        <View style={styles.webMapPlaceholder}>
+          <Ionicons name="map" size={64} color="#CCC" />
+          <Text style={styles.webMapText}>Harita Görünümü</Text>
+          <Text style={styles.webMapSubtext}>
+            Mobil uygulamada Google Maps ile gerçek zamanlı konum takibi
+          </Text>
+          
+          {/* Show location info */}
+          {pickupLocation && (
+            <View style={styles.locationInfo}>
+              <View style={styles.locationItem}>
+                <View style={[styles.locationDot, { backgroundColor: '#4CAF50' }]} />
+                <Text style={styles.locationText}>
+                  Alım: {pickupLocation.title || 'Alım Noktası'}
+                </Text>
+              </View>
+            </View>
+          )}
+          
+          {deliveryLocation && (
+            <View style={styles.locationInfo}>
+              <View style={styles.locationItem}>
+                <View style={[styles.locationDot, { backgroundColor: '#FF6B35' }]} />
+                <Text style={styles.locationText}>
+                  Teslimat: {deliveryLocation.title || 'Teslimat Noktası'}
+                </Text>
+              </View>
+            </View>
+          )}
+        </View>
+      </View>
+    );
+  }
+
   return (
     <View style={[styles.container, style]}>
       <MapView
