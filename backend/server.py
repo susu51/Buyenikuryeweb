@@ -568,6 +568,92 @@ async def get_orders(current_user: User = Depends(get_current_user)):
     
     return [Order(**order, id=order["_id"]) for order in orders]
 
+@app.post("/api/tips", response_model=dict)
+async def create_tip(tip_data: TipCreate, current_user: User = Depends(get_current_user)):
+    if current_user.role != UserRole.MUSTERI:
+        raise HTTPException(
+            status_code=status.HTTP_403_FORBIDDEN,
+            detail="Sadece müşteriler bahşiş verebilir"
+        )
+    
+    # Verify order exists and belongs to customer
+    order = await db.orders.find_one({"_id": tip_data.order_id})
+    if not order:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail="Sipariş bulunamadı"
+        )
+    
+    if order["customer_id"] != current_user.id:
+        raise HTTPException(
+            status_code=status.HTTP_403_FORBIDDEN,
+            detail="Bu siparişe bahşiş verme yetkiniz yok"
+        )
+    
+    if order["status"] != OrderStatus.DELIVERED:
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail="Sadece teslim edilmiş siparişlere bahşiş verilebilir"
+        )
+    
+    # Check if tip already exists
+    existing_tip = await db.tips.find_one({"order_id": tip_data.order_id})
+    if existing_tip:
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail="Bu sipariş için zaten bahşiş verilmiş"
+        )
+    
+    # Create tip
+    tip_id = str(uuid.uuid4())
+    tip_doc = {
+        "_id": tip_id,
+        "order_id": tip_data.order_id,
+        "customer_id": current_user.id,
+        "courier_id": order["courier_id"],
+        "tip_amount": tip_data.tip_amount,
+        "tip_type": tip_data.tip_type,
+        "note": tip_data.note,
+        "created_at": datetime.utcnow()
+    }
+    
+    await db.tips.insert_one(tip_doc)
+    
+    # Notify courier about tip
+    await manager.send_personal_message({
+        "type": "tip_received",
+        "order_id": tip_data.order_id,
+        "tip_amount": tip_data.tip_amount,
+        "tip_type": tip_data.tip_type,
+        "message": f"₺{tip_data.tip_amount} bahşiş aldınız!"
+    }, order["courier_id"])
+    
+    return {"message": "Bahşiş başarıyla gönderildi", "tip_id": tip_id}
+
+@app.get("/api/orders/{order_id}/tip")
+async def get_order_tip(order_id: str, current_user: User = Depends(get_current_user)):
+    # Get tip for specific order
+    tip = await db.tips.find_one({"order_id": order_id})
+    
+    if not tip:
+        return {"tip_exists": False}
+    
+    # Verify user can access this tip info
+    order = await db.orders.find_one({"_id": order_id})
+    if not order or (current_user.id not in [order["customer_id"], order["courier_id"]]):
+        raise HTTPException(
+            status_code=status.HTTP_403_FORBIDDEN,
+            detail="Bu bahşiş bilgisine erişim yetkiniz yok"
+        )
+    
+    return {
+        "tip_exists": True,
+        "tip_amount": tip["tip_amount"],
+        "tip_type": tip["tip_type"],
+        "note": tip.get("note"),
+        "created_at": tip["created_at"].isoformat()
+    }
+
 @app.post("/api/orders/{order_id}/assign")
 async def assign_order(order_id: str, current_user: User = Depends(get_current_user)):
     if current_user.role != UserRole.KURYE:
