@@ -143,7 +143,7 @@ class LocationUpdate(BaseModel):
 class TipCreate(BaseModel):
     order_id: str
     tip_amount: float = Field(..., ge=0, le=1000)  # 0-1000 TL aralığında
-    tip_type: str = Field(..., regex="^(online|cash)$")  # online veya nakit
+    tip_type: str = Field(..., pattern="^(online|cash)$")  # online veya nakit
     note: Optional[str] = None
 
 class Tip(BaseModel):
