@@ -140,6 +140,22 @@ class LocationUpdate(BaseModel):
     accuracy: Optional[float] = None
     timestamp: datetime = Field(default_factory=datetime.utcnow)
 
+class TipCreate(BaseModel):
+    order_id: str
+    tip_amount: float = Field(..., ge=0, le=1000)  # 0-1000 TL aralığında
+    tip_type: str = Field(..., regex="^(online|cash)$")  # online veya nakit
+    note: Optional[str] = None
+
+class Tip(BaseModel):
+    id: str
+    order_id: str
+    customer_id: str
+    courier_id: str
+    tip_amount: float
+    tip_type: str
+    note: Optional[str] = None
+    created_at: datetime
+
 class Rating(BaseModel):
     order_id: str
     rated_by: str  # user_id
