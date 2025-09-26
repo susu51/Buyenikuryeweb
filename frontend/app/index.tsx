@@ -185,6 +185,18 @@ export default function LoginScreen() {
       return;
     }
 
+    // Belge kontrolü - araba/motosiklet için zorunlu
+    if (role === 'kurye' && vehicleType !== 'bisiklet') {
+      if (!driverLicensePhoto) {
+        Alert.alert('Hata', 'Ehliyet fotoğrafını yüklemelisiniz');
+        return;
+      }
+      if (!vehiclePhoto) {
+        Alert.alert('Hata', 'Araç fotoğrafını yüklemelisiniz');
+        return;
+      }
+    }
+
     if (role === 'isletme' && !businessName) {
       Alert.alert('Hata', 'Lütfen işletme adını girin');
       return;
@@ -201,6 +213,8 @@ export default function LoginScreen() {
         address: address || null,
         vehicle_type: role === 'kurye' ? vehicleType : null,
         business_name: role === 'isletme' ? businessName : null,
+        driver_license_photo: role === 'kurye' && vehicleType !== 'bisiklet' ? driverLicensePhoto : null,
+        vehicle_photo: role === 'kurye' && vehicleType !== 'bisiklet' ? vehiclePhoto : null,
       };
 
       console.log('Register attempt:', { email: registerData.email, role, backend_url: BACKEND_URL });
