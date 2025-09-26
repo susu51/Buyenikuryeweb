@@ -45,6 +45,37 @@ security = HTTPBearer()
 app = FastAPI(title="Mobil Kargo Admin Panel API", version="1.0.0")
 api_router = APIRouter(prefix="/api")
 
+# Mount uploads directory
+app.mount("/uploads", StaticFiles(directory=str(UPLOAD_DIR)), name="uploads")
+
+# Helper functions
+async def save_uploaded_file(file: UploadFile, subfolder: str) -> str:
+    """Save uploaded file and return the file path"""
+    if not file.content_type.startswith('image/'):
+        raise HTTPException(status_code=400, detail="Only image files are allowed")
+    
+    # Generate unique filename
+    file_extension = file.filename.split('.')[-1]
+    unique_filename = f"{uuid.uuid4()}.{file_extension}"
+    file_path = UPLOAD_DIR / subfolder / unique_filename
+    
+    # Save file
+    async with aiofiles.open(file_path, 'wb') as buffer:
+        content = await file.read()
+        await buffer.write(content)
+    
+    # Optimize image
+    try:
+        with Image.open(file_path) as img:
+            # Resize if too large
+            if img.width > 1024 or img.height > 1024:
+                img.thumbnail((1024, 1024), Image.Resampling.LANCZOS)
+                img.save(file_path, optimize=True, quality=85)
+    except Exception as e:
+        logger.warning(f"Could not optimize image {file_path}: {e}")
+    
+    return f"uploads/{subfolder}/{unique_filename}"
+
 # Enums
 class VehicleType(str, Enum):
     CAR = "araba"
