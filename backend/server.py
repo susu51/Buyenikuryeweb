@@ -473,7 +473,40 @@ async def delete_license_photo(
     
     return {"message": "License photo deleted successfully"}
 
-@api_router.get("/admin/users/{user_id}", response_model=User)
+@api_router.post("/admin/users", response_model=User)
+async def create_user(
+    user_data: UserCreate,
+    current_admin: User = Depends(get_current_admin_user)
+):
+    # Check if user already exists
+    existing_user = await db.users.find_one({
+        "$or": [
+            {"email": user_data.email},
+            {"username": user_data.username}
+        ]
+    })
+    
+    if existing_user:
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail="User with this email or username already exists"
+        )
+    
+    # Create new user
+    user = User(
+        email=user_data.email,
+        username=user_data.username,
+        full_name=user_data.full_name,
+        role=user_data.role
+    )
+    
+    user_with_password = {
+        **user.dict(),
+        "password_hash": get_password_hash(user_data.password)
+    }
+    
+    await db.users.insert_one(user_with_password)
+    return user
 async def get_user(
     user_id: str,
     current_admin: User = Depends(get_current_admin_user)
