@@ -311,6 +311,10 @@ async def admin_login(login_data: AdminLogin):
         user=user_obj
     )
 
+@api_router.get("/admin/profile", response_model=User)
+async def get_admin_profile(current_admin: User = Depends(get_current_admin_user)):
+    return current_admin
+
 @api_router.get("/admin/dashboard/stats", response_model=DashboardStats)
 async def get_dashboard_stats(current_admin: User = Depends(get_current_admin_user)):
     today = datetime.utcnow().replace(hour=0, minute=0, second=0, microsecond=0)
