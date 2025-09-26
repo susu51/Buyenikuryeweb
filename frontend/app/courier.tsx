@@ -482,21 +482,55 @@ export default function CourierDashboard() {
                       <Text style={styles.statusText}>{getStatusText(order.status)}</Text>
                     </View>
                     <Text style={styles.orderTitle}>{order.package_description}</Text>
+                    
+                    {/* Detaylı Adres Bilgileri */}
                     <View style={styles.addressContainer}>
-                      <Ionicons name="location" size={14} color="#666" />
-                      <Text style={styles.addressText} numberOfLines={1}>
-                        {order.pickup_address}
-                      </Text>
+                      <Ionicons name="location" size={14} color="#4CAF50" />
+                      <View style={styles.addressDetails}>
+                        <Text style={styles.addressLabel}>ALIM ADRESİ:</Text>
+                        <Text style={styles.addressText}>{order.pickup_address}</Text>
+                        <Text style={styles.phoneText}>📞 {order.pickup_phone}</Text>
+                      </View>
                     </View>
+                    
+                    <View style={styles.addressSeparator} />
+                    
                     <View style={styles.addressContainer}>
-                      <Ionicons name="flag" size={14} color="#666" />
-                      <Text style={styles.addressText} numberOfLines={1}>
-                        {order.delivery_address}
-                      </Text>
+                      <Ionicons name="flag" size={14} color="#FF6B35" />
+                      <View style={styles.addressDetails}>
+                        <Text style={styles.addressLabel}>TESLİMAT ADRESİ:</Text>
+                        <Text style={styles.addressText}>{order.delivery_address}</Text>
+                        <Text style={styles.phoneText}>📞 {order.delivery_phone}</Text>
+                      </View>
+                    </View>
+
+                    {/* Paket Detayları */}
+                    <View style={styles.packageDetails}>
+                      {order.estimated_weight && (
+                        <View style={styles.detailItem}>
+                          <Ionicons name="fitness" size={12} color="#666" />
+                          <Text style={styles.detailText}>{order.estimated_weight}kg</Text>
+                        </View>
+                      )}
+                      {order.estimated_value && (
+                        <View style={styles.detailItem}>
+                          <Ionicons name="pricetag" size={12} color="#666" />
+                          <Text style={styles.detailText}>₺{order.estimated_value} değerinde</Text>
+                        </View>
+                      )}
+                      {order.special_instructions && (
+                        <View style={styles.instructionsContainer}>
+                          <Ionicons name="information-circle" size={14} color="#FF6B35" />
+                          <Text style={styles.instructionsText}>{order.special_instructions}</Text>
+                        </View>
+                      )}
                     </View>
                   </View>
                   <View style={styles.orderMeta}>
                     <Text style={styles.feeText}>₺{order.delivery_fee}</Text>
+                    <Text style={styles.dateText}>
+                      {new Date(order.created_at).toLocaleDateString('tr-TR')}
+                    </Text>
                   </View>
                 </View>
 
