@@ -55,6 +55,10 @@ export default function LoginScreen() {
   const [address, setAddress] = useState('');
   const [vehicleType, setVehicleType] = useState('');
   const [businessName, setBusinessName] = useState('');
+  
+  // Document uploads for couriers
+  const [driverLicensePhoto, setDriverLicensePhoto] = useState('');
+  const [vehiclePhoto, setVehiclePhoto] = useState('');
 
   useEffect(() => {
     checkExistingAuth();
