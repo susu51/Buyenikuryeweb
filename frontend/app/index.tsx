@@ -694,4 +694,46 @@ const styles = StyleSheet.create({
     color: '#666',
     marginLeft: 8,
   },
+  vehicleContainer: {
+    gap: 8,
+    marginBottom: 16,
+  },
+  vehicleButton: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: '#FFF',
+    borderRadius: 8,
+    paddingVertical: 12,
+    paddingHorizontal: 16,
+    borderWidth: 1,
+    borderColor: '#E9ECEF',
+    gap: 12,
+  },
+  activeVehicleButton: {
+    backgroundColor: '#FF6B35',
+    borderColor: '#FF6B35',
+  },
+  vehicleButtonText: {
+    fontSize: 14,
+    fontWeight: '600',
+    color: '#666',
+  },
+  activeVehicleButtonText: {
+    color: '#FFF',
+  },
+  infoContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: '#E8F5E8',
+    padding: 12,
+    borderRadius: 8,
+    marginBottom: 16,
+    gap: 8,
+  },
+  infoText: {
+    fontSize: 12,
+    color: '#4CAF50',
+    flex: 1,
+    lineHeight: 18,
+  },
 });
