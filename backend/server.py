@@ -74,6 +74,21 @@ class User(BaseModel):
     created_at: datetime = Field(default_factory=datetime.utcnow)
     updated_at: datetime = Field(default_factory=datetime.utcnow)
     last_login: Optional[datetime] = None
+    # Courier specific fields
+    phone: Optional[str] = None
+    address: Optional[str] = None
+    vehicle_type: Optional[VehicleType] = None
+    vehicle_photo: Optional[str] = None
+    license_photo: Optional[str] = None
+
+class CourierCreate(BaseModel):
+    email: EmailStr
+    username: str
+    full_name: str
+    phone: str
+    address: Optional[str] = None
+    vehicle_type: VehicleType
+    password: str
 
 class UserCreate(BaseModel):
     email: EmailStr
