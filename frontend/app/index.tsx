@@ -365,15 +365,73 @@ export default function LoginScreen() {
 
                 {/* Conditional Fields */}
                 {role === 'kurye' && (
-                  <View style={styles.inputContainer}>
-                    <Ionicons name="car-sport" size={20} color="#666" style={styles.inputIcon} />
-                    <TextInput
-                      style={styles.input}
-                      placeholder="Araç Tipi (araba, motosiklet, bisiklet)"
-                      value={vehicleType}
-                      onChangeText={setVehicleType}
-                    />
-                  </View>
+                  <>
+                    {/* Vehicle Type Selection */}
+                    <Text style={styles.labelText}>Ulaşım Aracı Seçin:</Text>
+                    <View style={styles.vehicleContainer}>
+                      {[
+                        { value: 'araba', label: 'Araba', icon: 'car' },
+                        { value: 'motosiklet', label: 'Motosiklet', icon: 'bicycle' },
+                        { value: 'elektrikli_motosiklet', label: 'Elektrikli Motor', icon: 'flash' },
+                        { value: 'bisiklet', label: 'Bisiklet', icon: 'bicycle' }
+                      ].map((vehicle) => (
+                        <TouchableOpacity
+                          key={vehicle.value}
+                          style={[
+                            styles.vehicleButton,
+                            vehicleType === vehicle.value && styles.activeVehicleButton
+                          ]}
+                          onPress={() => setVehicleType(vehicle.value)}
+                        >
+                          <Ionicons 
+                            name={vehicle.icon as any} 
+                            size={20} 
+                            color={vehicleType === vehicle.value ? '#FFF' : '#666'} 
+                          />
+                          <Text style={[
+                            styles.vehicleButtonText,
+                            vehicleType === vehicle.value && styles.activeVehicleButtonText
+                          ]}>
+                            {vehicle.label}
+                          </Text>
+                        </TouchableOpacity>
+                      ))}
+                    </View>
+
+                    {/* Document Uploads - Required for Araba/Motosiklet */}
+                    {vehicleType && vehicleType !== 'bisiklet' && (
+                      <>
+                        <DocumentUpload
+                          label="Ehliyet Fotoğrafı"
+                          placeholder="Ehliyetinizin fotoğrafını çekin"
+                          required={true}
+                          onImageSelected={(base64, fileName) => {
+                            setDriverLicensePhoto(base64);
+                          }}
+                          imageSource={driverLicensePhoto}
+                        />
+
+                        <DocumentUpload
+                          label="Araç Fotoğrafı"
+                          placeholder="Aracınızın fotoğrafını çekin"
+                          required={true}
+                          onImageSelected={(base64, fileName) => {
+                            setVehiclePhoto(base64);
+                          }}
+                          imageSource={vehiclePhoto}
+                        />
+                      </>
+                    )}
+
+                    {vehicleType === 'bisiklet' && (
+                      <View style={styles.infoContainer}>
+                        <Ionicons name="information-circle" size={16} color="#4CAF50" />
+                        <Text style={styles.infoText}>
+                          Bisiklet kullanıcıları için ehliyet ve araç belgesi gerekli değildir.
+                        </Text>
+                      </View>
+                    )}
+                  </>
                 )}
 
                 {role === 'isletme' && (
