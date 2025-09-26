@@ -796,4 +796,63 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: '600',
   },
+  addressDetails: {
+    flex: 1,
+    marginLeft: 6,
+  },
+  addressLabel: {
+    fontSize: 10,
+    fontWeight: 'bold',
+    color: '#FF6B35',
+    marginBottom: 2,
+  },
+  phoneText: {
+    fontSize: 12,
+    color: '#4CAF50',
+    marginTop: 2,
+    fontWeight: '500',
+  },
+  addressSeparator: {
+    height: 1,
+    backgroundColor: '#E9ECEF',
+    marginVertical: 8,
+  },
+  packageDetails: {
+    marginTop: 12,
+    padding: 12,
+    backgroundColor: '#F8F9FA',
+    borderRadius: 8,
+    borderLeftWidth: 3,
+    borderLeftColor: '#FF6B35',
+  },
+  detailItem: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginBottom: 4,
+  },
+  detailText: {
+    fontSize: 12,
+    color: '#666',
+    marginLeft: 6,
+  },
+  instructionsContainer: {
+    flexDirection: 'row',
+    alignItems: 'flex-start',
+    marginTop: 8,
+    padding: 8,
+    backgroundColor: '#FFF3E0',
+    borderRadius: 6,
+  },
+  instructionsText: {
+    fontSize: 12,
+    color: '#FF6B35',
+    marginLeft: 6,
+    flex: 1,
+    fontStyle: 'italic',
+  },
+  dateText: {
+    fontSize: 12,
+    color: '#666',
+    marginTop: 4,
+  },
 });
