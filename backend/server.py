@@ -337,16 +337,16 @@ async def get_all_users(
     users = await db.users.find().skip(skip).limit(limit).to_list(limit)
     return [User(**user) for user in users]
 
-@api_router.post("/admin/users", response_model=User)
-async def create_user(
-    user_data: UserCreate,
+@api_router.post("/admin/couriers", response_model=User)
+async def create_courier(
+    courier_data: CourierCreate,
     current_admin: User = Depends(get_current_admin_user)
 ):
     # Check if user already exists
     existing_user = await db.users.find_one({
         "$or": [
-            {"email": user_data.email},
-            {"username": user_data.username}
+            {"email": courier_data.email},
+            {"username": courier_data.username}
         ]
     })
     
@@ -356,21 +356,122 @@ async def create_user(
             detail="User with this email or username already exists"
         )
     
-    # Create new user
-    user = User(
-        email=user_data.email,
-        username=user_data.username,
-        full_name=user_data.full_name,
-        role=user_data.role
+    # Create new courier
+    courier = User(
+        email=courier_data.email,
+        username=courier_data.username,
+        full_name=courier_data.full_name,
+        phone=courier_data.phone,
+        address=courier_data.address,
+        vehicle_type=courier_data.vehicle_type,
+        role=UserRole.COURIER
     )
     
-    user_with_password = {
-        **user.dict(),
-        "password_hash": get_password_hash(user_data.password)
+    courier_with_password = {
+        **courier.dict(),
+        "password_hash": get_password_hash(courier_data.password)
     }
     
-    await db.users.insert_one(user_with_password)
-    return user
+    await db.users.insert_one(courier_with_password)
+    return courier
+
+@api_router.post("/admin/couriers/{courier_id}/upload-vehicle-photo")
+async def upload_vehicle_photo(
+    courier_id: str,
+    file: UploadFile = File(...),
+    current_admin: User = Depends(get_current_admin_user)
+):
+    # Check if courier exists
+    courier = await db.users.find_one({"id": courier_id, "role": "kurye"})
+    if not courier:
+        raise HTTPException(status_code=404, detail="Courier not found")
+    
+    # Check vehicle type - bicycle doesn't need vehicle photo
+    if courier.get("vehicle_type") == VehicleType.BICYCLE:
+        raise HTTPException(status_code=400, detail="Bicycle couriers don't need vehicle photos")
+    
+    # Save file
+    file_path = await save_uploaded_file(file, "vehicles")
+    
+    # Update courier record
+    await db.users.update_one(
+        {"id": courier_id},
+        {"$set": {"vehicle_photo": file_path, "updated_at": datetime.utcnow()}}
+    )
+    
+    return {"message": "Vehicle photo uploaded successfully", "file_path": file_path}
+
+@api_router.post("/admin/couriers/{courier_id}/upload-license-photo") 
+async def upload_license_photo(
+    courier_id: str,
+    file: UploadFile = File(...),
+    current_admin: User = Depends(get_current_admin_user)
+):
+    # Check if courier exists
+    courier = await db.users.find_one({"id": courier_id, "role": "kurye"})
+    if not courier:
+        raise HTTPException(status_code=404, detail="Courier not found")
+    
+    # Check vehicle type - bicycle doesn't need license
+    if courier.get("vehicle_type") == VehicleType.BICYCLE:
+        raise HTTPException(status_code=400, detail="Bicycle couriers don't need driver's license")
+    
+    # Save file
+    file_path = await save_uploaded_file(file, "licenses")
+    
+    # Update courier record
+    await db.users.update_one(
+        {"id": courier_id},
+        {"$set": {"license_photo": file_path, "updated_at": datetime.utcnow()}}
+    )
+    
+    return {"message": "License photo uploaded successfully", "file_path": file_path}
+
+@api_router.delete("/admin/couriers/{courier_id}/vehicle-photo")
+async def delete_vehicle_photo(
+    courier_id: str,
+    current_admin: User = Depends(get_current_admin_user)
+):
+    courier = await db.users.find_one({"id": courier_id, "role": "kurye"})
+    if not courier:
+        raise HTTPException(status_code=404, detail="Courier not found")
+    
+    if courier.get("vehicle_photo"):
+        # Delete file from filesystem
+        file_path = ROOT_DIR / courier["vehicle_photo"]
+        if file_path.exists():
+            file_path.unlink()
+        
+        # Update database
+        await db.users.update_one(
+            {"id": courier_id},
+            {"$unset": {"vehicle_photo": ""}, "$set": {"updated_at": datetime.utcnow()}}
+        )
+    
+    return {"message": "Vehicle photo deleted successfully"}
+
+@api_router.delete("/admin/couriers/{courier_id}/license-photo")
+async def delete_license_photo(
+    courier_id: str,
+    current_admin: User = Depends(get_current_admin_user)
+):
+    courier = await db.users.find_one({"id": courier_id, "role": "kurye"})
+    if not courier:
+        raise HTTPException(status_code=404, detail="Courier not found")
+    
+    if courier.get("license_photo"):
+        # Delete file from filesystem
+        file_path = ROOT_DIR / courier["license_photo"]
+        if file_path.exists():
+            file_path.unlink()
+        
+        # Update database
+        await db.users.update_one(
+            {"id": courier_id},
+            {"$unset": {"license_photo": ""}, "$set": {"updated_at": datetime.utcnow()}}
+        )
+    
+    return {"message": "License photo deleted successfully"}
 
 @api_router.get("/admin/users/{user_id}", response_model=User)
 async def get_user(
