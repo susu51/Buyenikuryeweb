@@ -46,10 +46,17 @@ app = FastAPI(title="Mobil Kargo Admin Panel API", version="1.0.0")
 api_router = APIRouter(prefix="/api")
 
 # Enums
+class VehicleType(str, Enum):
+    CAR = "araba"
+    MOTORCYCLE = "motosiklet" 
+    ELECTRIC_MOTORCYCLE = "elektrikli_motosiklet"
+    BICYCLE = "bisiklet"
+
 class UserRole(str, Enum):
     ADMIN = "admin"
     USER = "user"
     MODERATOR = "moderator"
+    COURIER = "kurye"
 
 class UserStatus(str, Enum):
     ACTIVE = "active"
