@@ -633,8 +633,15 @@ async def get_all_couriers(current_admin: User = Depends(get_current_admin_user)
             sort=[("timestamp", -1)]
         )
         courier["last_location"] = last_location
+        
+        # Ensure all courier fields are present
+        courier.setdefault("phone", "")
+        courier.setdefault("address", "")
+        courier.setdefault("vehicle_type", None)
+        courier.setdefault("vehicle_photo", None)
+        courier.setdefault("license_photo", None)
     
-    return [User(**{**courier, "id": courier["_id"]}) for courier in couriers]
+    return [User(**{**courier, "id": courier.get("id", courier.get("_id"))}) for courier in couriers]
 
 @api_router.get("/admin/businesses", response_model=List[User])
 async def get_all_businesses(current_admin: User = Depends(get_current_admin_user)):
